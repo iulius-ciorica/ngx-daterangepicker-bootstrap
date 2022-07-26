@@ -1,0 +1,37 @@
+{
+  "name": "ngx-daterangepicker-bootstrap",
+  "version": "0.0.36",
+  "description": "Date Range Picker - Angular 14 and Bootstrap 5",
+  "keywords": [
+    "angular14",
+    "ngx",
+    "daterangepicker",
+    "bootstrap5",
+    "component",
+    "directive",
+    "date",
+    "range",
+    "picker",
+    "dayjs"
+  ],
+  "homepage": "https://github.com/iulius-ciorica/ngx-daterangepicker-bootstrap",
+  "license": "MIT",
+  "author": {
+    "name": "Iulius Ciorica",
+    "email": "iulius.ciorica@adora.tech",
+    "url": "https://adora.tech/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iulius-ciorica/ngx-daterangepicker-bootstrap.git"
+  },
+  "peerDependencies": {
+    "@angular/common": "^14.1.0",
+    "@angular/core": "^14.1.0",
+    "bootstrap": "^5.2.0",
+    "dayjs": "^1.11.4"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

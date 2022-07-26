@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-4">
+      <label for="input" class="form-label">NgxDaterangepickerBootstrap</label>
+      <input type="text"
+             id="input"
+             class="form-control"
+             style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
+             readonly
+             ngxDaterangepickerBootstrap
+             [(ngModel)]='selected'
+             [drops]="drops"
+             [opens]='opens'
+             [locale]='locale'
+             [ranges]='ranges'
+             [timePicker]='true'
+             [timePickerSeconds]='true'
+             [timePicker24Hour]='true'
+             [showCustomRangeLabel]='true'
+             [showClearButton]='true'
+             [showCancel]='true'
+             [linkedCalendars]='true'
+             [alwaysShowCalendars]='false'
+             [showRangeLabelOnInput]='false'
+             [keepCalendarOpeningWithRange]='false'
+             [isTooltipDate]='isTooltipDate'
+             [isCustomDate]='isCustomDate'
+             [isInvalidDate]='isInvalidDate'
+             (datesUpdated)="datesUpdated($event)"/>
+    </div>
+  </div>
+</div>
