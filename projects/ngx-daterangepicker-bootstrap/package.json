@@ -1,6 +1,6 @@
 {
   "name": "ngx-daterangepicker-bootstrap",
-  "version": "0.0.36",
+  "version": "14.5.1",
   "description": "Date Range Picker - Angular 14 and Bootstrap 5",
   "keywords": [
     "angular14",
@@ -14,7 +14,7 @@
     "picker",
     "dayjs"
   ],
-  "homepage": "https://github.com/iulius-ciorica/ngx-daterangepicker-bootstrap",
+  "homepage": "https://angular-ivy-fdit1j.stackblitz.io/",
   "license": "MIT",
   "author": {
     "name": "Iulius Ciorica",
