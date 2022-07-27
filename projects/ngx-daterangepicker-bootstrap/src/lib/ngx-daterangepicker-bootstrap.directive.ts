@@ -94,8 +94,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   @Input() timePicker24Hour: Boolean = false;
   @Input() timePickerIncrement: Number = 1;
   @Input() timePickerSeconds: Boolean = false;
-  @Input() formlyCustomField: Boolean = false; // if you use ngx-formly and create custom field
-  // ngx-formly populate input value though angular reactive forms and use of [(ngModel)] in this context leads to issues
+  @Input() formlyCustomField: Boolean = false; // if you use ngx-formly and create custom field this library
 
   @Input() set startKey(value: any) {
     if (value !== null) {
@@ -218,7 +217,8 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   }
 
   ngAfterViewInit(): void {
-    if (this.formlyCustomField) this.writeValue(this.locale); // activate if you use ngx-formly
+    if (this.formlyCustomField) this.writeValue(this.locale); // If you use ngx-formly custom field, remove [(ngModel)]
+    // from the input and set [formlyCustomField]='true' instead, to avoid Expression has changed after it was checked.
   }
 
   ngOnChanges(changes: SimpleChanges): void {
