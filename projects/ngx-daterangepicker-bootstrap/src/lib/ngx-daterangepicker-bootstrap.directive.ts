@@ -2,9 +2,11 @@ import {
   AfterViewInit,
   ApplicationRef,
   ChangeDetectorRef,
+  ComponentRef,
   Directive,
   DoCheck,
   ElementRef,
+  EmbeddedViewRef,
   EventEmitter,
   forwardRef,
   HostBinding,
@@ -14,8 +16,10 @@ import {
   KeyValueDiffer,
   KeyValueDiffers,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
+  reflectComponentType,
   Renderer2,
   SimpleChanges,
   ViewContainerRef
@@ -41,10 +45,12 @@ import {NgxDaterangepickerLocaleService} from "./ngx-daterangepicker-locale.serv
     }
   ]
 })
-export class NgxDaterangepickerBootstrapDirective implements OnInit, OnChanges, DoCheck, AfterViewInit {
+export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, OnChanges, DoCheck, AfterViewInit {
 
   public $event: any;
-  public picker: NgxDaterangepickerBootstrapComponent | any;
+  public daterangepicker: NgxDaterangepickerBootstrapComponent | any;
+  private daterangepickerRef: ComponentRef<any>;
+  private readonly daterangepickerElement: HTMLElement;
   private localeDiffer?: KeyValueDiffer<string, any>;
   private firstMonthDayClass?: string;
   private _onChange = Function.prototype;
@@ -88,6 +94,8 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnChanges, 
   @Input() timePicker24Hour: Boolean = false;
   @Input() timePickerIncrement: Number = 1;
   @Input() timePickerSeconds: Boolean = false;
+  @Input() formlyCustomField: Boolean = false; // if you use ngx-formly and create custom field
+  // ngx-formly populate input value though angular reactive forms and use of [(ngModel)] in this context leads to issues
 
   @Input() set startKey(value: any) {
     if (value !== null) {
@@ -154,28 +162,30 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnChanges, 
     this.drops = 'down';
     this.opens = 'auto';
     viewContainerRef.clear();
-    const componentRef = viewContainerRef.createComponent(NgxDaterangepickerBootstrapComponent);
-    this.picker = (<NgxDaterangepickerBootstrapComponent>componentRef.instance);
-    this.picker.inline = false; // set inline to false for all directive usage
+    this.daterangepickerRef = this.viewContainerRef.createComponent(NgxDaterangepickerBootstrapComponent, {injector: this.injector});
+    this.daterangepickerElement = (this.daterangepickerRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+    document.body.appendChild(this.daterangepickerElement); // add daterangepickerElement to DOM body, to fix position top left issues
+    this.daterangepicker = (<NgxDaterangepickerBootstrapComponent>this.daterangepickerRef.instance);
+    this.daterangepicker.inline = false; // set inline to false for all directive usage
   }
 
   ngOnInit() {
-    this.picker.rangeClicked.asObservable().subscribe((range: any) => {
+    this.daterangepicker.rangeClicked.asObservable().subscribe((range: any) => {
       this.rangeClicked.emit(range);
     });
-    this.picker.datesUpdated.asObservable().subscribe((range: any) => {
+    this.daterangepicker.datesUpdated.asObservable().subscribe((range: any) => {
       this.datesUpdated.emit(range);
     });
-    this.picker.startDateChanged.asObservable().subscribe((itemChanged: any) => {
+    this.daterangepicker.startDateChanged.asObservable().subscribe((itemChanged: any) => {
       this.startDateChanged.emit(itemChanged);
     });
-    this.picker.endDateChanged.asObservable().subscribe((itemChanged: any) => {
+    this.daterangepicker.endDateChanged.asObservable().subscribe((itemChanged: any) => {
       this.endDateChanged.emit(itemChanged);
     });
-    this.picker.clearClicked.asObservable().subscribe(() => {
+    this.daterangepicker.clearClicked.asObservable().subscribe(() => {
       this.clearClicked.emit();
     });
-    this.picker.choosedDate.asObservable().subscribe((change: any) => {
+    this.daterangepicker.choosedDate.asObservable().subscribe((change: any) => {
       if (change) {
         const value = {} as any;
         value[this._startKey] = change.startDate;
@@ -187,27 +197,35 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnChanges, 
         }
       }
     });
-    this.picker.firstMonthDayClass = this.firstMonthDayClass;
-    this.picker.lastMonthDayClass = this.lastMonthDayClass;
-    this.picker.emptyWeekRowClass = this.emptyWeekRowClass;
-    this.picker.emptyWeekColumnClass = this.emptyWeekColumnClass;
-    this.picker.firstDayOfNextMonthClass = this.firstDayOfNextMonthClass;
-    this.picker.lastDayOfPreviousMonthClass = this.lastDayOfPreviousMonthClass;
-    this.picker.drops = this.drops;
-    this.picker.opens = this.opens;
+    this.daterangepicker.firstMonthDayClass = this.firstMonthDayClass;
+    this.daterangepicker.lastMonthDayClass = this.lastMonthDayClass;
+    this.daterangepicker.emptyWeekRowClass = this.emptyWeekRowClass;
+    this.daterangepicker.emptyWeekColumnClass = this.emptyWeekColumnClass;
+    this.daterangepicker.firstDayOfNextMonthClass = this.firstDayOfNextMonthClass;
+    this.daterangepicker.lastDayOfPreviousMonthClass = this.lastDayOfPreviousMonthClass;
+    this.daterangepicker.drops = this.drops;
+    this.daterangepicker.opens = this.opens;
     this.localeDiffer = this.differs.find(this.locale).create();
-    this.picker.closeOnAutoApply = this.closeOnAutoApply;
+    this.daterangepicker.closeOnAutoApply = this.closeOnAutoApply;
+  }
+
+  ngOnDestroy() {
+    const reflectComponent = reflectComponentType(NgxDaterangepickerBootstrapComponent);
+    const selector = document.querySelector(reflectComponent!.selector);
+    if (selector !== null) document.body.removeChild(selector);
+    this.applicationRef.detachView(this.daterangepickerRef.hostView);
+    this.daterangepickerRef.destroy();
   }
 
   ngAfterViewInit(): void {
-    // this.writeValue(this.locale);
+    if (this.formlyCustomField) this.writeValue(this.locale); // activate if you use ngx-formly
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     for (const change in changes) {
       if (changes.hasOwnProperty(change)) {
         if (this.notForChangesProperty.indexOf(change) === -1) {
-          this.picker[change] = changes[change].currentValue;
+          this.daterangepicker[change] = changes[change].currentValue;
         }
       }
     }
@@ -217,7 +235,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnChanges, 
     if (this.localeDiffer) {
       const changes = this.localeDiffer.diff(this.locale);
       if (changes) {
-        this.picker.updateLocale(this.locale);
+        this.daterangepicker.updateLocale(this.locale);
       }
     }
     this.setPosition();
@@ -232,15 +250,15 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnChanges, 
       return;
     }
     this.setPosition();
-    this.picker.show(event);
+    this.daterangepicker.show(event);
   }
 
   hide(e?: any) {
-    this.picker.hide(e);
+    this.daterangepicker.hide(e);
   }
 
   toggle(e?: any) {
-    if (this.picker.isShown) {
+    if (this.daterangepicker.isShown) {
       this.hide(e);
     } else {
       this.open(e);
@@ -248,7 +266,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnChanges, 
   }
 
   clear() {
-    this.picker.clear();
+    this.daterangepicker.clear();
   }
 
   writeValue(value: any) {
@@ -271,17 +289,17 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnChanges, 
     if (val) {
       this.value = val;
       if (val[this._startKey]) {
-        this.picker.setStartDate(val[this._startKey]);
+        this.daterangepicker.setStartDate(val[this._startKey]);
       }
       if (val[this._endKey]) {
-        this.picker.setEndDate(val[this._endKey]);
+        this.daterangepicker.setEndDate(val[this._endKey]);
       }
-      this.picker.calculateChosenLabel();
-      if (this.picker.chosenLabel) {
-        this._el.nativeElement.value = this.picker.chosenLabel;
+      this.daterangepicker.calculateChosenLabel();
+      if (this.daterangepicker.chosenLabel) {
+        this._el.nativeElement.value = this.daterangepicker.chosenLabel;
       }
     } else {
-      this.picker.clear();
+      this.daterangepicker.clear();
     }
   }
 
@@ -291,10 +309,10 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnChanges, 
   }
 
   /**
-   * Set position of the calendar
+   * Set position of the calendar, this works as expected only if you add daterangepickerElement to DOM body
    */
   setPosition() {
-    const container = this.picker.pickerContainer.nativeElement;
+    const container = this.daterangepicker.pickerContainer.nativeElement;
     const inputOffset = this.getElementOffset(this._el.nativeElement);
     let containerTop;
     if (this.drops && this.drops === 'down') {
@@ -347,20 +365,20 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnChanges, 
   inputChanged(e: any) {
     if (e.target.tagName.toLowerCase() !== 'input') return;
     if (!e.target.value.length) return;
-    const dateString = e.target.value.split(this.picker.locale.separator);
+    const dateString = e.target.value.split(this.daterangepicker.locale.separator);
     let start = null, end = null;
     if (dateString.length === 2) {
-      start = dayjs(dateString[0], this.picker.locale.format);
-      end = dayjs(dateString[1], this.picker.locale.format);
+      start = dayjs(dateString[0], this.daterangepicker.locale.format);
+      end = dayjs(dateString[1], this.daterangepicker.locale.format);
     }
     if (this.singleDatePicker || start === null || end === null) {
-      start = dayjs(e.target.value, this.picker.locale.format);
+      start = dayjs(e.target.value, this.daterangepicker.locale.format);
       end = start;
     }
     if (!start.isValid() || !end.isValid()) return;
-    this.picker.setStartDate(start);
-    this.picker.setEndDate(end);
-    this.picker.updateView();
+    this.daterangepicker.setStartDate(start);
+    this.daterangepicker.setEndDate(end);
+    this.daterangepicker.updateView();
   }
 
   /**

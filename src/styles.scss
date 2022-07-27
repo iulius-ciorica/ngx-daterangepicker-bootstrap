@@ -1,6 +1,65 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap.scss";
 
+/* Hide HTML and body scroll bar in CSS grid context */
+html, body {
+  position: static; /* Or relative or fixed ... */
+  box-sizing: content-box; /* Important for hidding scrollbar */
+  display: grid; /* For CSS grid */
+
+  /* Full screen */
+  width: 100vw;
+  min-width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  overflow: -moz-scrollbars-none; /* Should hide the scroll bar */
+}
+
+/* No scroll bar for Safari and Chrome */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Might be enough */
+  background: transparent;
+  visibility: hidden;
+  width: 0;
+}
+
+/* Firefox only workaround */
+@-moz-document url-prefix() {
+  /* Make HTML with overflow hidden */
+  html {
+    overflow: hidden;
+  }
+
+  /* Make body max height auto */
+  /* Set right scroll bar out the screen  */
+  body {
+    /* Enable scrolling content */
+    max-height: initial;
+
+    /* 100vw +15px: trick to set the scroll bar out the screen */
+    width: calc(100vw + 15px);
+    min-width: calc(100vw + 15px);
+    max-width: calc(100vw + 15px);
+
+    /* Set back the content inside the screen */
+    padding-right: 15px;
+  }
+}
+
+body {
+  /* Allow vertical scroll */
+  overflow-y: scroll;
+}
+
 .form-label {
   display: inline-block;
   max-width: 100%;

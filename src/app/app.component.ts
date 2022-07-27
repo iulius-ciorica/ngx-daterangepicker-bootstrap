@@ -10,7 +10,8 @@ export class AppComponent {
   title = 'daterangepicker-bootstrap-sdk';
   drops = 'down';
   opens = 'right';
-  selected: any;
+  selectedRange: any;
+  selectedSingle: any;
   maxDate?: dayjs.Dayjs;
   minDate?: dayjs.Dayjs;
   invalidDates: dayjs.Dayjs[] = [];
@@ -39,9 +40,12 @@ export class AppComponent {
   ];
 
   constructor() {
-    this.selected = {
+    this.selectedRange = {
       startDate: dayjs().startOf('day'),
       endDate: dayjs().endOf('day')
+    };
+    this.selectedSingle = {
+      startDate: dayjs().startOf('day')
     };
   }
 
