@@ -32,7 +32,6 @@ export class AppComponent {
     cancelLabel: 'Cancel',
     fromLabel: 'From',
     toLabel: 'To',
-
   };
   tooltips = [
     {date: dayjs(), text: 'Today is just unselectable'},
@@ -45,12 +44,8 @@ export class AppComponent {
       endDate: dayjs().endOf('day')
     };
     this.selectedSingle = {
-      startDate: dayjs().startOf('day')
+      // startDate: dayjs().startOf('day')
     };
-  }
-
-  datesUpdated($event: Object) {
-
   }
 
   isInvalidDate = (m: dayjs.Dayjs) => {
@@ -67,5 +62,13 @@ export class AppComponent {
     const tooltip = this.tooltips.find(tt => tt.date.isSame(m, 'day'));
     return tooltip ? tooltip.text : false;
   };
+
+  datesUpdatedRange($event: Object) {
+    console.log('range', $event);
+  }
+
+  datesUpdatedSingle($event: any) {
+    console.log('single', $event);
+  }
 
 }

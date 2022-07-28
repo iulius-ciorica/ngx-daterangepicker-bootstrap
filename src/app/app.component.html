@@ -1,6 +1,13 @@
 <div class="container">
   <div class="card mt-4">
-    <div class="card-header">NgxDaterangepickerBootstrap - Angular 14 / Bootstrap 5</div>
+    <div class="card-header text-center">
+      <a href="https://www.npmjs.com/package/ngx-daterangepicker-bootstrap"
+         style="color: black;
+         text-decoration:none;"
+         target="_blank">
+        Angular 14 / Bootstrap 5 :: NgxDaterangepickerBootstrap
+      </a>
+    </div>
     <div class="card-body">
       <div class="row mb-3">
         <div class="col-6">
@@ -29,7 +36,7 @@
                  [isTooltipDate]='isTooltipDate'
                  [isCustomDate]='isCustomDate'
                  [isInvalidDate]='isInvalidDate'
-                 (datesUpdated)="datesUpdated($event)"/>
+                 (datesUpdated)="datesUpdatedRange($event)"/>
         </div>
         <div class="col-6">
           <label for="single" class="form-label">Single</label>
@@ -39,6 +46,8 @@
                  style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
                  readonly
                  ngxDaterangepickerBootstrap
+                 [singleDatePicker]="true"
+                 [autoApply]="true"
                  [(ngModel)]="selectedSingle"
                  [drops]="drops"
                  [opens]='opens'
@@ -46,11 +55,9 @@
                  [timePicker]='true'
                  [timePickerSeconds]='true'
                  [timePicker24Hour]='true'
-                 [singleDatePicker]="true"
-                 [autoApply]="true"
-                 [isTooltipDate]='isTooltipDate'
                  [isCustomDate]="isCustomDate"
-                 [isInvalidDate]="isInvalidDate"/>
+                 [isInvalidDate]="isInvalidDate"
+                 (datesUpdated)="datesUpdatedSingle($event)"/>
         </div>
       </div>
     </div>
