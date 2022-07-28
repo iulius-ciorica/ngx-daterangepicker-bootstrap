@@ -159,7 +159,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     this.endKey = 'endDate';
     this.startKey = 'startDate';
     this.drops = 'down';
-    this.opens = 'auto';
+    this.opens = 'right';
     viewContainerRef.clear();
     this.daterangepickerRef = this.viewContainerRef.createComponent(NgxDaterangepickerBootstrapComponent, {injector: this.injector});
     this.daterangepickerElement = (this.daterangepickerRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
