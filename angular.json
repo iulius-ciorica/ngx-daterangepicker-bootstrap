@@ -20,6 +20,7 @@
             "allowedCommonJsDependencies": [
               "dayjs"
             ],
+            "preserveSymlinks": true,
             "outputPath": "dist/daterangepicker-bootstrap-sdk",
             "index": "src/index.html",
             "main": "src/main.ts",
