@@ -14,9 +14,9 @@ For the moment use demo of the forked version for other detalis: https://fetrari
 
 ## Versions
 
-| Angular| ngx-daterangepicker-bootstrap|
-| ------|:------:|
-| 14.1.0  | all |
+| Angular| Bootstrap | ngx-daterangepicker-bootstrap|
+| ------|: ------|: ------:|
+| 14.1.0 | 5.2.0 | 14.5.x |
 
 
 ---
@@ -33,7 +33,7 @@ For the moment use demo of the forked version for other detalis: https://fetrari
 ...
 import { FormsModule } from '@angular/forms';
 import { NgxDaterangepickerModule } from 'ngx-daterangepicker-bootstrap';
-import { App } from './app';
+import { AppComponent } from './app';
 
 @NgModule({
     imports: [
@@ -42,8 +42,8 @@ import { App } from './app';
         NgxDaterangepickerBootstrapModule.forRoot()
     ],
     providers: [NgxDaterangepickerLocaleService],
-    declarations: [App],
-    bootstrap:    [App]
+    declarations: [AppComponent],
+    bootstrap:    [AppComponent]
 })
 export class AppModule {}
 ````
@@ -196,7 +196,7 @@ It is possible to open datepicker from outside. You should create an input with 
     </a>
 ```
 
-```javascript
+```typescript
 
   ...
     @ViewChild(NgxDaterangepickerBootstrapDirective, { static: false }) pickerDirective: NgxDaterangepickerBootstrapDirective;
@@ -258,7 +258,7 @@ For setting the global locale, pass this object to NgxDaterangepickerModule.forR
 
 eg:
 
-```
+```typescript
 @NgModule({
     imports: [
         ... ,
@@ -269,8 +269,8 @@ eg:
         })
     ],
     providers: [NgxDaterangepickerLocaleService],
-    declarations: [App],
-    bootstrap:    [App]
+    declarations: [AppComponent],
+    bootstrap:    [AppComponent]
 })
 ```
 

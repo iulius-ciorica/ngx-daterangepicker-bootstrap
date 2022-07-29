@@ -14,26 +14,26 @@ For the moment use demo of the forked version for other detalis: https://fetrari
 
 ## Versions
 
-| Angular| ngx-daterangepicker-bootstrap|
-| ------|:------:|
-| 14.1.0  | all |
+| Angular| Bootstrap | ngx-daterangepicker-bootstrap|
+| ------|: ------|: ------:|
+| 14.1.0 | 5.2.0 | 14.5.x |
 
 
 ---
 
 ## Installation
 
- Install the plugin from npm:
+Install the plugin from npm:
 
- `npm install ngx-daterangepicker-bootstrap --save` .
+`npm install ngx-daterangepicker-bootstrap --save` .
 
- import **NgxDaterangepickerModule** and **NgxDaterangepickerLocaleService** in your module:
+import **NgxDaterangepickerModule** and **NgxDaterangepickerLocaleService** in your module:
 
 ````typescript
 ...
 import { FormsModule } from '@angular/forms';
 import { NgxDaterangepickerModule } from 'ngx-daterangepicker-bootstrap';
-import { App } from './app';
+import { AppComponent } from './app';
 
 @NgModule({
     imports: [
@@ -42,8 +42,8 @@ import { App } from './app';
         NgxDaterangepickerBootstrapModule.forRoot()
     ],
     providers: [NgxDaterangepickerLocaleService],
-    declarations: [App],
-    bootstrap:    [App]
+    declarations: [AppComponent],
+    bootstrap:    [AppComponent]
 })
 export class AppModule {}
 ````
@@ -108,11 +108,11 @@ You can use the component directly in your templates, which will set its `inline
 
 ### minDate, maxDate
 
- >To set the minimal and maximal date, these options are either a dayjs date or string in [ISO](https://www.w3.org/QA/Tips/iso-date) format
+>To set the minimal and maximal date, these options are either a dayjs date or string in [ISO](https://www.w3.org/QA/Tips/iso-date) format
 
 ### dateLimit
 
- >To set max number of the date we can choose
+>To set max number of the date we can choose
 
 ### locale
 
@@ -196,7 +196,7 @@ It is possible to open datepicker from outside. You should create an input with 
     </a>
 ```
 
-```javascript
+```typescript
 
   ...
     @ViewChild(NgxDaterangepickerBootstrapDirective, { static: false }) pickerDirective: NgxDaterangepickerBootstrapDirective;
@@ -242,15 +242,15 @@ You can use theses options:
 
 ### \(rangeClicked)
 
- >Fired when clicked on range, and send an object with range label and dates value, eg:  `{label: 'This Month', dates: [Dayjs, Dayjs]}`
+>Fired when clicked on range, and send an object with range label and dates value, eg:  `{label: 'This Month', dates: [Dayjs, Dayjs]}`
 
 ### \(datesUpdated)
 
- >Fires when the date model is updated, like applying (if you have activated the apply button), or when selecting a range or date without the apply button, and sends an object containing start and end dates, eg: `{startDate: Dayjs, endDate: Dayjs, label: 'This Month'}`
+>Fires when the date model is updated, like applying (if you have activated the apply button), or when selecting a range or date without the apply button, and sends an object containing start and end dates, eg: `{startDate: Dayjs, endDate: Dayjs, label: 'This Month'}`
 
 ### \(clearClicked)
 
- >Fired when clicked on the clear button
+>Fired when clicked on the clear button
 
 ### Global locale
 
@@ -258,7 +258,7 @@ For setting the global locale, pass this object to NgxDaterangepickerModule.forR
 
 eg:
 
-```
+```typescript
 @NgModule({
     imports: [
         ... ,
@@ -269,8 +269,8 @@ eg:
         })
     ],
     providers: [NgxDaterangepickerLocaleService],
-    declarations: [App],
-    bootstrap:    [App]
+    declarations: [AppComponent],
+    bootstrap:    [AppComponent]
 })
 ```
 
