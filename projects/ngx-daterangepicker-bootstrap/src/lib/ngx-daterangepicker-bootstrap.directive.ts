@@ -163,6 +163,9 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     viewContainerRef.clear();
     this.daterangepickerRef = this.viewContainerRef.createComponent(NgxDaterangepickerBootstrapComponent, {injector: this.injector});
     this.daterangepickerElement = (this.daterangepickerRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+    CSS.supports('display', 'contents') // unwrap or hide daterangepickerElement from DOM body, to fix clickOutside
+      ? this.daterangepickerElement.classList.add('unwrap', 'on')
+      : this.daterangepickerElement.classList.add('unwrap', 'off');
     document.body.appendChild(this.daterangepickerElement); // add daterangepickerElement to DOM body, to fix position top left issues
     this.daterangepicker = (<NgxDaterangepickerBootstrapComponent>this.daterangepickerRef.instance);
     this.daterangepicker.inline = false; // set inline to false for all directive usage

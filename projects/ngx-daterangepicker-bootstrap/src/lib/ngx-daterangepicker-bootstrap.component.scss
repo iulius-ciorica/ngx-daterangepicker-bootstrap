@@ -62,8 +62,19 @@ $select-padding: 5px !default;
 $select-radius: calc(0.5rem - 1px) !default;
 $input-height: 3rem !default;
 
-ngx-daterangepicker-bootstrap {
-  display: contents;
+/*
+* ignore component selector and use unwrapped component content or hide from body
+*/
+.unwrap {
+  &.on {
+    display: contents;
+  }
+
+  &.off {
+    overflow: hidden;
+    height: 0;
+    width: 0;
+  }
 }
 
 /*
