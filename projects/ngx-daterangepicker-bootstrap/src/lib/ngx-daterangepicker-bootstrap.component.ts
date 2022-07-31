@@ -682,7 +682,6 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
         this.showCalInRanges = true;
       }
     }
-
     this.updateElement();
   }
 
@@ -775,7 +774,6 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
         this.setEndDate(start.clone());
       } else if (!this.endDate && this.timePicker) {
         const startClone = this._getDateWithTime(start, SideEnum.right);
-
         if (startClone.isBefore(start)) {
           this.timepickerVariables[SideEnum.right].selectedHour = hour;
           this.timepickerVariables[SideEnum.right].selectedMinute = minute;
@@ -1035,7 +1033,6 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
     this.isShown = false;
     this.applyBtn.disabled = true;
     this._ref.detectChanges();
-
   }
 
   clearIncompleteDateSelection() {
