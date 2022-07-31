@@ -1,10 +1,10 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   ApplicationRef,
   ChangeDetectorRef,
   ComponentRef,
   Directive,
-  DoCheck,
   ElementRef,
   EmbeddedViewRef,
   EventEmitter,
@@ -33,9 +33,9 @@ import {NgxDaterangepickerLocaleService} from "./ngx-daterangepicker-locale.serv
 @Directive({
   selector: 'input[ngxDaterangepickerBootstrap]',
   host: {
+    '(click)': 'open()',
     '(keyup.esc)': 'hide()',
     '(blur)': 'onBlur()',
-    '(click)': 'open()',
     '(keyup)': 'inputChanged($event)'
   },
   providers: [
@@ -45,7 +45,7 @@ import {NgxDaterangepickerLocaleService} from "./ngx-daterangepicker-locale.serv
     }
   ]
 })
-export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, OnChanges, DoCheck, AfterViewInit {
+export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, OnChanges, AfterViewInit, AfterViewChecked {
 
   public $event: any;
   public daterangepicker: NgxDaterangepickerBootstrapComponent | any;
@@ -60,6 +60,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   private _startKey!: string;
   private _endKey!: string;
   private _locale: LocaleConfig = {};
+  private _isOpen?: boolean;
 
   @Input() minDate?: dayjs.Dayjs;
   @Input() maxDate?: dayjs.Dayjs;
@@ -209,6 +210,12 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     this.daterangepicker.opens = this.opens;
     this.localeDiffer = this.differs.find(this.locale).create();
     this.daterangepicker.closeOnAutoApply = this.closeOnAutoApply;
+    if (this.localeDiffer) {
+      const changes = this.localeDiffer.diff(this.locale);
+      if (changes) {
+        this.daterangepicker.updateLocale(this.locale);
+      }
+    }
   }
 
   ngOnDestroy() {
@@ -234,16 +241,6 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     }
   }
 
-  ngDoCheck() {
-    if (this.localeDiffer) {
-      const changes = this.localeDiffer.diff(this.locale);
-      if (changes) {
-        this.daterangepicker.updateLocale(this.locale);
-      }
-    }
-    this.setPosition();
-  }
-
   onBlur() {
     this._onTouched();
   }
@@ -252,11 +249,12 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     if (this.disabled) {
       return;
     }
-    this.setPosition();
+    this._isOpen = true;
     this.daterangepicker.show(event);
   }
 
   hide(e?: any) {
+    this._isOpen = false;
     this.daterangepicker.hide(e);
   }
 
@@ -306,9 +304,13 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     }
   }
 
+  ngAfterViewChecked() {
+    if (this._isOpen) this.setPosition();
+  }
+
   @HostListener('window:resize', ['$event'])
   onWindowResize() {
-    this.setPosition();
+    if (this._isOpen) this.setPosition();
   }
 
   /**
