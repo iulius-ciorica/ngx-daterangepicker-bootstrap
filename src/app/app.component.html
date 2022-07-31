@@ -1,33 +1,28 @@
 <div class="container">
   <div class="card mt-4">
-    <div class="card-header text-center">
-      <a href="https://www.npmjs.com/package/ngx-daterangepicker-bootstrap"
-         style="color: black;
-         text-decoration:none;"
-         target="_blank">
-        Angular 14 / Bootstrap 5 :: NgxDaterangepickerBootstrap
-      </a>
-    </div>
-    <div class="card-body">
+    <img src="./assets/img/ngx-daterangepicker-bootstrap-demo.png"
+         class="card-img-top mt-4"
+         alt="...">
+    <div class="card-body mt-4">
+
       <div class="row mb-3">
-        <div class="col-6">
-          <label for="range" class="form-label">Range</label>
+        <div class="col-4">
+          <label for="rangeCalendarTimeRight" class="form-label">Range Calendar</label>
           <input type="text"
-                 id="range"
+                 id="rangeCalendarTimeRight"
                  class="form-control"
                  style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
                  readonly
                  ngxDaterangepickerBootstrap
-                 [(ngModel)]='selectedRange'
-                 [drops]="drops"
-                 [opens]='opens'
-                 [locale]='locale'
+                 [(ngModel)]='selectedRangeCalendarTimeRight'
+                 [drops]="dropsDown"
+                 [opens]='opensRight'
+                 [locale]='localeTime'
                  [ranges]='ranges'
                  [timePicker]='true'
                  [timePickerSeconds]='true'
                  [timePicker24Hour]='true'
                  [showCustomRangeLabel]='true'
-                 [showClearButton]='true'
                  [showCancel]='true'
                  [linkedCalendars]='true'
                  [alwaysShowCalendars]='false'
@@ -36,30 +31,221 @@
                  [isTooltipDate]='isTooltipDate'
                  [isCustomDate]='isCustomDate'
                  [isInvalidDate]='isInvalidDate'
-                 (datesUpdated)="datesUpdatedRange($event)"/>
+                 (datesUpdated)="datesUpdatedRange($event)"
+                 aria-describedby="rangeCalendarTimeRightDesc"/>
+          <div id="rangeCalendarTimeRightDesc" class="form-text">Opens right, with apply button and time</div>
         </div>
-        <div class="col-6">
-          <label for="single" class="form-label">Single</label>
+        <div class="col-4">
+          <label for="rangeCalendarCenter" class="form-label">Range Calendar</label>
           <input type="text"
-                 id="single"
+                 id="rangeCalendarCenter"
+                 class="form-control"
+                 style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
+                 readonly
+                 ngxDaterangepickerBootstrap
+                 [(ngModel)]='selectedRangeCalendarCenter'
+                 [drops]="dropsDown"
+                 [opens]='opensCenter'
+                 [locale]='locale'
+                 [ranges]='ranges'
+                 [showCustomRangeLabel]='true'
+                 [showCancel]='true'
+                 [linkedCalendars]='true'
+                 [alwaysShowCalendars]='false'
+                 [showRangeLabelOnInput]='false'
+                 [keepCalendarOpeningWithRange]='false'
+                 [isTooltipDate]='isTooltipDate'
+                 [isCustomDate]='isCustomDate'
+                 [isInvalidDate]='isInvalidDate'
+                 (datesUpdated)="datesUpdatedRange($event)"
+                 aria-describedby="rangeCalendarCenterDesc"/>
+          <div id="rangeCalendarCenterDesc" class="form-text">Opens center, with apply button</div>
+        </div>
+        <div class="col-4">
+          <label for="rangeCalendarAutoLeft" class="form-label">Range Calendar</label>
+          <input type="text"
+                 id="rangeCalendarAutoLeft"
+                 class="form-control"
+                 style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
+                 readonly
+                 ngxDaterangepickerBootstrap
+                 [(ngModel)]='selectedRangeCalendarAutoLeft'
+                 [drops]="dropsDown"
+                 [opens]='opensLeft'
+                 [locale]='locale'
+                 [ranges]='ranges'
+                 [showCustomRangeLabel]='true'
+                 [showCancel]='true'
+                 [linkedCalendars]='true'
+                 [alwaysShowCalendars]='false'
+                 [showRangeLabelOnInput]='false'
+                 [keepCalendarOpeningWithRange]='false'
+                 [closeOnAutoApply]="true"
+                 [autoApply]="true"
+                 [isTooltipDate]='isTooltipDate'
+                 [isCustomDate]='isCustomDate'
+                 [isInvalidDate]='isInvalidDate'
+                 (datesUpdated)="datesUpdatedRange($event)"
+                 aria-describedby="rangeCalendarAutoLeftDesc"/>
+          <div id="rangeCalendarAutoLeftDesc" class="form-text">Opens left, with auto apply</div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-4">
+          <label for="singleCalendarTimeRight" class="form-label">Single Calendar</label>
+          <input type="text"
+                 id="singleCalendarTimeRight"
                  class="form-control"
                  style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
                  readonly
                  ngxDaterangepickerBootstrap
                  [singleDatePicker]="true"
-                 [autoApply]="true"
-                 [(ngModel)]="selectedSingle"
-                 [drops]="drops"
-                 [opens]='opens'
-                 [locale]="locale"
+                 [(ngModel)]="selectedSingleCalendarTimeRight"
+                 [drops]="dropsDown"
+                 [opens]='opensRight'
+                 [locale]="localeTime"
                  [timePicker]='true'
                  [timePickerSeconds]='true'
                  [timePicker24Hour]='true'
                  [isCustomDate]="isCustomDate"
                  [isInvalidDate]="isInvalidDate"
-                 (datesUpdated)="datesUpdatedSingle($event)"/>
+                 (datesUpdated)="datesUpdatedSingle($event)"
+                 aria-describedby="singleCalendarTimeRightDesc"/>
+          <div id="singleCalendarTimeRightDesc" class="form-text">Opens right, with apply button and time</div>
+        </div>
+        <div class="col-4">
+          <label for="singleCalendarCenter" class="form-label">Single Calendar</label>
+          <input type="text"
+                 id="singleCalendarCenter"
+                 class="form-control"
+                 style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
+                 readonly
+                 ngxDaterangepickerBootstrap
+                 [singleDatePicker]="true"
+                 [(ngModel)]="selectedSingleCalendarCenter"
+                 [drops]="dropsDown"
+                 [opens]='opensCenter'
+                 [locale]="locale"
+                 [isCustomDate]="isCustomDate"
+                 [isInvalidDate]="isInvalidDate"
+                 (datesUpdated)="datesUpdatedSingle($event)"
+                 aria-describedby="singleCalendarCenterDesc"/>
+          <div id="singleCalendarCenterDesc" class="form-text">Opens center, with apply button</div>
+        </div>
+        <div class="col-4">
+          <label for="singleCalendarAutoLeft" class="form-label">Single Calendar</label>
+          <input type="text"
+                 id="singleCalendarAutoLeft"
+                 class="form-control"
+                 style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
+                 readonly
+                 ngxDaterangepickerBootstrap
+                 [singleDatePicker]="true"
+                 [(ngModel)]="selectedSingleCalendarAutoLeft"
+                 [drops]="dropsDown"
+                 [opens]='opensLeft'
+                 [locale]="locale"
+                 [closeOnAutoApply]="true"
+                 [autoApply]="true"
+                 [isCustomDate]="isCustomDate"
+                 [isInvalidDate]="isInvalidDate"
+                 (datesUpdated)="datesUpdatedSingle($event)"
+                 aria-describedby="singleCalendarAutoLeftDesc"/>
+          <div id="singleCalendarAutoLeftDesc" class="form-text">Opens left, with auto apply</div>
         </div>
       </div>
+
+      <div class="row mb-3">
+        <div class="col-4">
+          <label for="simpleCalendarTimeUpRight" class="form-label">Simple Calendar</label>
+          <input type="text"
+                 id="simpleCalendarTimeUpRight"
+                 class="form-control"
+                 style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
+                 readonly
+                 ngxDaterangepickerBootstrap
+                 [(ngModel)]='selectedSimpleCalendarTimeUpRight'
+                 [drops]="dropsUp"
+                 [opens]='opensRight'
+                 [locale]='localeTime'
+                 [timePicker]='true'
+                 [timePickerSeconds]='true'
+                 [timePicker24Hour]='true'
+                 [showCancel]='true'
+                 [linkedCalendars]='true'
+                 [alwaysShowCalendars]='false'
+                 [showRangeLabelOnInput]='false'
+                 [keepCalendarOpeningWithRange]='false'
+                 [isTooltipDate]='isTooltipDate'
+                 [isCustomDate]='isCustomDate'
+                 [isInvalidDate]='isInvalidDate'
+                 (datesUpdated)="datesUpdatedRange($event)"
+                 aria-describedby="simpleCalendarTimeUpRightDesc"/>
+          <div id="simpleCalendarTimeUpRightDesc" class="form-text">Opens up, right, with apply button and time</div>
+        </div>
+        <div class="col-4">
+          <label for="simpleCalendarUpCenter" class="form-label">Simple Calendar</label>
+          <input type="text"
+                 id="simpleCalendarUpCenter"
+                 class="form-control"
+                 style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
+                 readonly
+                 ngxDaterangepickerBootstrap
+                 [(ngModel)]='selectedSimpleCalendarUpCenter'
+                 [drops]="dropsUp"
+                 [opens]='opensCenter'
+                 [locale]='locale'
+                 [showCancel]='true'
+                 [linkedCalendars]='true'
+                 [alwaysShowCalendars]='false'
+                 [showRangeLabelOnInput]='false'
+                 [keepCalendarOpeningWithRange]='false'
+                 [isTooltipDate]='isTooltipDate'
+                 [isCustomDate]='isCustomDate'
+                 [isInvalidDate]='isInvalidDate'
+                 (datesUpdated)="datesUpdatedRange($event)"
+                 aria-describedby="simpleCalendarUpCenterDesc"/>
+          <div id="simpleCalendarUpCenterDesc" class="form-text">Opens up, center, with apply button</div>
+        </div>
+        <div class="col-4">
+          <label for="simpleCalendarAutoUpLeft" class="form-label">Simple Calendar</label>
+          <input type="text"
+                 id="simpleCalendarAutoUpLeft"
+                 class="form-control"
+                 style="box-shadow: none; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"
+                 readonly
+                 ngxDaterangepickerBootstrap
+                 [(ngModel)]='selectedSimpleCalendarAutoUpLeft'
+                 [drops]="dropsUp"
+                 [opens]='opensLeft'
+                 [locale]='locale'
+                 [showCancel]='true'
+                 [linkedCalendars]='true'
+                 [alwaysShowCalendars]='false'
+                 [showRangeLabelOnInput]='false'
+                 [keepCalendarOpeningWithRange]='false'
+                 [closeOnAutoApply]="true"
+                 [autoApply]="true"
+                 [isTooltipDate]='isTooltipDate'
+                 [isCustomDate]='isCustomDate'
+                 [isInvalidDate]='isInvalidDate'
+                 (datesUpdated)="datesUpdatedRange($event)"
+                 aria-describedby="simpleCalendarAutoUpLeftDesc"/>
+          <div id="simpleCalendarAutoUpLeftDesc" class="form-text">Opens up, left, with auto apply</div>
+        </div>
+      </div>
+
     </div>
+
+    <div class="card-footer text-center">
+      <a href="https://www.npmjs.com/package/ngx-daterangepicker-bootstrap"
+         style="color: black;
+         text-decoration:none;"
+         target="_blank">
+        Angular 14 / Bootstrap 5 :: NgxDaterangepickerBootstrap
+      </a>
+    </div>
+
   </div>
 </div>

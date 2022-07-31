@@ -8,10 +8,20 @@ import dayjs from "dayjs";
 })
 export class AppComponent {
   title = 'daterangepicker-bootstrap-sdk';
-  drops = 'down';
-  opens = 'right';
-  selectedRange: any;
-  selectedSingle: any;
+  dropsDown = 'down';
+  dropsUp = 'up';
+  opensRight = 'right';
+  opensCenter = 'center';
+  opensLeft = 'left';
+  selectedRangeCalendarTimeRight: any;
+  selectedRangeCalendarCenter: any;
+  selectedRangeCalendarAutoLeft: any;
+  selectedSingleCalendarTimeRight: any;
+  selectedSingleCalendarCenter: any;
+  selectedSingleCalendarAutoLeft: any;
+  selectedSimpleCalendarTimeUpRight: any;
+  selectedSimpleCalendarUpCenter: any;
+  selectedSimpleCalendarAutoUpLeft: any;
   maxDate?: dayjs.Dayjs;
   minDate?: dayjs.Dayjs;
   invalidDates: dayjs.Dayjs[] = [];
@@ -23,11 +33,21 @@ export class AppComponent {
     'This month': [dayjs().startOf('month'), dayjs().endOf('month')],
     'Last month': [dayjs().startOf('month').subtract(1, 'month'), dayjs().endOf('month').subtract(1, 'month')]
   };
-  locale = {
+  localeTime = {
     firstDay: 1,
     startDate: dayjs().startOf('day'),
     endDate: dayjs().endOf('day'),
     format: 'DD.MM.YYYY HH:mm:ss',
+    applyLabel: 'Apply',
+    cancelLabel: 'Cancel',
+    fromLabel: 'From',
+    toLabel: 'To',
+  };
+  locale = {
+    firstDay: 1,
+    startDate: dayjs().startOf('day'),
+    endDate: dayjs().endOf('day'),
+    format: 'DD.MM.YYYY',
     applyLabel: 'Apply',
     cancelLabel: 'Cancel',
     fromLabel: 'From',
@@ -39,12 +59,41 @@ export class AppComponent {
   ];
 
   constructor() {
-    this.selectedRange = {
+    this.selectedRangeCalendarTimeRight = {
       startDate: dayjs().startOf('day'),
       endDate: dayjs().endOf('day')
     };
-    this.selectedSingle = {
-      // startDate: dayjs().startOf('day')
+    this.selectedRangeCalendarCenter = {
+      startDate: dayjs().startOf('day'),
+      endDate: dayjs().endOf('day')
+    };
+    this.selectedRangeCalendarAutoLeft = {
+      startDate: dayjs().startOf('day'),
+      endDate: dayjs().endOf('day')
+    };
+    this.selectedSingleCalendarTimeRight = {
+      startDate: dayjs().startOf('day'),
+      endDate: dayjs().endOf('day')
+    };
+    this.selectedSingleCalendarCenter = {
+      startDate: dayjs().startOf('day'),
+      endDate: dayjs().endOf('day')
+    };
+    this.selectedSingleCalendarAutoLeft = {
+      startDate: dayjs().startOf('day'),
+      endDate: dayjs().endOf('day')
+    };
+    this.selectedSimpleCalendarTimeUpRight = {
+      startDate: dayjs().startOf('day'),
+      endDate: dayjs().endOf('day')
+    };
+    this.selectedSimpleCalendarUpCenter = {
+      startDate: dayjs().startOf('day'),
+      endDate: dayjs().endOf('day')
+    };
+    this.selectedSimpleCalendarAutoUpLeft = {
+      startDate: dayjs().startOf('day'),
+      endDate: dayjs().endOf('day')
     };
   }
 
@@ -53,9 +102,9 @@ export class AppComponent {
   };
 
   isCustomDate = (date: dayjs.Dayjs) => {
-    return (
-      date.month() === 0 || date.month() === 6
-    ) ? 'mycustomdate' : false;
+    return (date.month() === 0 || date.month() === 6)
+      ? 'mycustomdate'
+      : false;
   };
 
   isTooltipDate = (m: dayjs.Dayjs) => {
@@ -71,4 +120,7 @@ export class AppComponent {
     console.log('single', $event);
   }
 
+  choosedDate($event: Object) {
+    console.log('inline', $event);
+  }
 }
