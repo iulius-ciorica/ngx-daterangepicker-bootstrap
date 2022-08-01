@@ -178,7 +178,15 @@ $input-height: 3rem !default;
 
   &.inline {
     position: relative;
-    display: inline-block;
+    display: inline-grid;
+
+    &:before {
+      content: none;
+    }
+
+    &:after {
+      content: none;
+    }
   }
 
   &.shown {
