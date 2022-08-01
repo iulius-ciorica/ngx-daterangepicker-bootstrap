@@ -183,6 +183,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
     }
     this.locale.daysOfWeek = daysOfWeek;
     if (this.inline) {
+      this.applyBtn.disabled = true;
       this._old.start = this.startDate?.clone();
       this._old.end = this.endDate?.clone();
     }
@@ -686,6 +687,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   }
 
   clickApply(e?: any) {
+    if (this.inline) this.applyBtn.disabled = true;
     if (!this.singleDatePicker && this.startDate && !this.endDate) {
       this.endDate = this._getDateWithTime(this.startDate, SideEnum.right);
       this.calculateChosenLabel();
@@ -936,6 +938,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
       }
     }
     if (this.singleDatePicker) {
+      this.applyBtn.disabled = false;
       this.setEndDate(this.startDate);
       this.updateElement();
       if (this.autoApply) {
