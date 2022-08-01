@@ -22,6 +22,7 @@ export class AppComponent {
   selectedSimpleCalendarTimeUpRight: any;
   selectedSimpleCalendarUpCenter: any;
   selectedSimpleCalendarAutoUpLeft: any;
+  selectedRangeCalendarTimeInline: any;
   maxDate?: dayjs.Dayjs;
   minDate?: dayjs.Dayjs;
   invalidDates: dayjs.Dayjs[] = [];
@@ -71,18 +72,9 @@ export class AppComponent {
       startDate: dayjs().startOf('day'),
       endDate: dayjs().endOf('day')
     };
-    this.selectedSingleCalendarTimeRight = {
-      startDate: dayjs().startOf('day'),
-      endDate: dayjs().endOf('day')
-    };
-    this.selectedSingleCalendarCenter = {
-      startDate: dayjs().startOf('day'),
-      endDate: dayjs().endOf('day')
-    };
-    this.selectedSingleCalendarAutoLeft = {
-      startDate: dayjs().startOf('day'),
-      endDate: dayjs().endOf('day')
-    };
+    this.selectedSingleCalendarTimeRight = dayjs().startOf('day');
+    this.selectedSingleCalendarCenter = dayjs().startOf('day');
+    this.selectedSingleCalendarAutoLeft = dayjs().startOf('day');
     this.selectedSimpleCalendarTimeUpRight = {
       startDate: dayjs().startOf('day'),
       endDate: dayjs().endOf('day')
@@ -92,6 +84,10 @@ export class AppComponent {
       endDate: dayjs().endOf('day')
     };
     this.selectedSimpleCalendarAutoUpLeft = {
+      startDate: dayjs().startOf('day'),
+      endDate: dayjs().endOf('day')
+    };
+    this.selectedRangeCalendarTimeInline = {
       startDate: dayjs().startOf('day'),
       endDate: dayjs().endOf('day')
     };
@@ -120,7 +116,8 @@ export class AppComponent {
     console.log('single', $event);
   }
 
-  choosedDate($event: Object) {
+  datesUpdatedInline($event: Object) {
     console.log('inline', $event);
   }
+
 }

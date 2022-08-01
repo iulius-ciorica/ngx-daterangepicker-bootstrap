@@ -1,11 +1,11 @@
 <div class="container">
-  <div class="card mt-4">
+  <div class="card mt-4 mb-4">
     <img src="./assets/img/ngx-daterangepicker-bootstrap-demo.png"
-         class="card-img-top mt-4"
+         class="card-img-top mt-5"
          alt="...">
-    <div class="card-body mt-4">
+    <div class="card-body">
 
-      <div class="row mb-3">
+      <div class="row mt-5 mb-3">
         <div class="col-4">
           <label for="rangeCalendarTimeRight" class="form-label">Range Calendar</label>
           <input type="text"
@@ -233,6 +233,50 @@
                  (datesUpdated)="datesUpdatedRange($event)"
                  aria-describedby="simpleCalendarAutoUpLeftDesc"/>
           <div id="simpleCalendarAutoUpLeftDesc" class="form-text">Opens up, left, with auto apply</div>
+        </div>
+      </div>
+
+      <div class="row mt-5 mb-4">
+        <div class="col-12 d-flex justify-content-center">
+          <h6>Inline with apply button and time</h6>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <ngx-daterangepicker-bootstrap (datesUpdated)="datesUpdatedInline($event)"
+                                         [timePickerSeconds]='true'
+                                         [timePicker24Hour]="true"
+                                         [linkedCalendars]="true"
+                                         [timePicker]="true"
+                                         [locale]="localeTime">
+          </ngx-daterangepicker-bootstrap>
+        </div>
+      </div>
+
+      <div class="row mt-5 mb-4">
+        <div class="col-12 d-flex justify-content-center">
+          <h6>Inline with auto apply and time</h6>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <ngx-daterangepicker-bootstrap (datesUpdated)="datesUpdatedInline($event)"
+                                         [autoApply]="true"
+                                         [timePicker]="true"
+                                         [timePicker24Hour]="true"
+                                         [timePickerSeconds]='true'
+                                         [linkedCalendars]="true"
+                                         [locale]="localeTime">
+          </ngx-daterangepicker-bootstrap>
+        </div>
+      </div>
+
+      <div class="row mt-5 mb-4">
+        <div class="col-12 d-flex justify-content-center">
+          <h6>Inline with auto apply</h6>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <ngx-daterangepicker-bootstrap (datesUpdated)="datesUpdatedInline($event)"
+                                         [autoApply]="true"
+                                         [linkedCalendars]="true"
+                                         [locale]="locale">
+          </ngx-daterangepicker-bootstrap>
         </div>
       </div>
 
