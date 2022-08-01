@@ -246,9 +246,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   }
 
   open(event?: any) {
-    if (this.disabled) {
-      return;
-    }
+    if (this.disabled) return;
     this._isOpen = true;
     this.daterangepicker.show(event);
   }
