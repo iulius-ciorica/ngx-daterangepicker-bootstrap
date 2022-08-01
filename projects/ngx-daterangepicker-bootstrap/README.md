@@ -14,10 +14,9 @@ For the moment use demo of the forked version for other detalis: https://fetrari
 
 ## Versions
 
-| Angular| Bootstrap | ngx-daterangepicker-bootstrap|
-| ------|: ------|: ------:|
+| Angular| Bootstrap| ngx-daterangepicker-bootstrap|
+| ------|:------|:------:|
 | 14.1.0 | 5.2.0 | 14.5.x |
-
 
 ---
 
