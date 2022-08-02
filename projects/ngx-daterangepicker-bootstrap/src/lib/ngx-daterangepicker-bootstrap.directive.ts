@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   ApplicationRef,
   ChangeDetectorRef,
@@ -45,7 +44,7 @@ import {NgxDaterangepickerLocaleService} from "./ngx-daterangepicker-locale.serv
     }
   ]
 })
-export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, OnChanges, AfterViewInit, AfterViewChecked {
+export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, OnChanges, AfterViewInit {
 
   public $event: any;
   public daterangepicker: NgxDaterangepickerBootstrapComponent | any;
@@ -60,7 +59,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   private _startKey!: string;
   private _endKey!: string;
   private _locale: LocaleConfig = {};
-  private _isOpen?: boolean;
+  private _resizeObserver?: ResizeObserver;
 
   @Input() minDate?: dayjs.Dayjs;
   @Input() maxDate?: dayjs.Dayjs;
@@ -200,6 +199,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
         }
       }
     });
+    this.pickerResizeObserver();
     this.daterangepicker.firstMonthDayClass = this.firstMonthDayClass;
     this.daterangepicker.lastMonthDayClass = this.lastMonthDayClass;
     this.daterangepicker.emptyWeekRowClass = this.emptyWeekRowClass;
@@ -219,6 +219,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   }
 
   ngOnDestroy() {
+    this._resizeObserver?.unobserve(this.daterangepicker.pickerContainer.nativeElement);
     const reflectComponent = reflectComponentType(NgxDaterangepickerBootstrapComponent);
     const selector = document.querySelector(reflectComponent!.selector);
     if (selector !== null) document.body.removeChild(selector);
@@ -247,21 +248,16 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
 
   open(event?: any) {
     if (this.disabled) return;
-    this._isOpen = true;
     this.daterangepicker.show(event);
+    if (this.daterangepicker.isShown) this.setPosition();
   }
 
   hide(e?: any) {
-    this._isOpen = false;
     this.daterangepicker.hide(e);
   }
 
   toggle(e?: any) {
-    if (this.daterangepicker.isShown) {
-      this.hide(e);
-    } else {
-      this.open(e);
-    }
+    this.daterangepicker.isShown ? this.hide(e) : this.open(e);
   }
 
   clear() {
@@ -302,67 +298,76 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     }
   }
 
-  ngAfterViewChecked() {
-    if (this._isOpen) this.setPosition();
-  }
-
   @HostListener('window:resize', ['$event'])
   onWindowResize() {
-    if (this._isOpen) this.setPosition();
+    if (this.daterangepicker.isShown) this.setPosition();
+  }
+
+  pickerResizeObserver() {
+    this._resizeObserver = new ResizeObserver(() => {
+      if (this.daterangepicker.isShown) this.setPosition();
+    });
+    this._resizeObserver.observe(this.daterangepicker.pickerContainer.nativeElement);
   }
 
   /**
    * Set position of the calendar, this works as expected only if you add daterangepickerElement to DOM body
    */
   setPosition() {
-    const container = this.daterangepicker.pickerContainer.nativeElement;
-    const inputOffset = this.getElementOffset(this._el.nativeElement);
+    const pickerContainer = this.daterangepicker.pickerContainer.nativeElement;
+    const inputOffset = this.getOffset(this._el.nativeElement);
     let containerTop;
+    let containerBottom;
     if (this.drops && this.drops === 'down') {
       containerTop = inputOffset.top + inputOffset.height + 'px';
+      containerBottom = 'auto'
     }
     if (this.drops && this.drops === 'up') {
-      containerTop = inputOffset.top - container.clientHeight + 'px';
+      containerTop = 'auto'
+      containerBottom = window.innerHeight - inputOffset.top + 'px';
     }
     let style;
     if (this.opens === 'right') {
       style = {
         top: containerTop,
+        right: 'auto',
+        bottom: containerBottom,
         left: inputOffset.left + 'px',
-        right: 'auto'
       };
     }
     if (this.opens === 'center') {
       style = {
         top: containerTop,
-        left: (inputOffset.left + inputOffset.width / 2 - container.clientWidth / 2) + 'px',
-        right: 'auto'
+        right: 'auto',
+        bottom: containerBottom,
+        left: inputOffset.left + inputOffset.width / 2 - pickerContainer.offsetWidth / 2 + 'px',
       };
     }
     if (this.opens === 'left') {
       style = {
         top: containerTop,
-        left: (inputOffset.left - container.clientWidth + inputOffset.width) + 'px',
-        right: 'auto'
+        right: (window.innerWidth - (inputOffset.left + inputOffset.width)) + 'px',
+        bottom: containerBottom,
+        left: 'auto',
       };
     }
     if (style) {
-      this._renderer.setStyle(container, 'top', style.top);
-      this._renderer.setStyle(container, 'left', style.left);
-      this._renderer.setStyle(container, 'right', style.right);
+      /* inset: top right bottom left */
+      this._renderer.setStyle(pickerContainer, 'top', style.top);
+      this._renderer.setStyle(pickerContainer, 'right', style.right);
+      this._renderer.setStyle(pickerContainer, 'bottom', style.bottom);
+      this._renderer.setStyle(pickerContainer, 'left', style.left);
     }
   }
 
-  getElementOffset(element: any) {
+  getOffset(element: any) {
     const rect = element.getBoundingClientRect();
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
     return {
-      top: rect.top + scrollTop,
-      left: rect.left + scrollLeft,
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
       height: rect.height,
       width: rect.width,
-    }
+    };
   }
 
   inputChanged(e: any) {
