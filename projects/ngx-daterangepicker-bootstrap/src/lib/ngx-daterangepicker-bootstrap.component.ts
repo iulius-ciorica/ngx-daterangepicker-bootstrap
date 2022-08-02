@@ -1006,7 +1006,6 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
           this.renderTimePicker(SideEnum.right);
         }
       }
-
     }
   }
 

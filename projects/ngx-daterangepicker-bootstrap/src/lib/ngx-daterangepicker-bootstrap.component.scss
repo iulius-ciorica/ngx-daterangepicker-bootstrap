@@ -84,7 +84,8 @@ $input-height: 3rem !default;
   position: absolute;
   width: auto;
   z-index: 3001;
-  margin-top: 7px;
+  margin-top: 6px;
+  margin-bottom: 6px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
 
   &:before, &:after {

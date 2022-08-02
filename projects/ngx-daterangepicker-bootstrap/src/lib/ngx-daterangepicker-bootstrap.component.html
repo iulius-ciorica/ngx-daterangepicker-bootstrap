@@ -2,13 +2,13 @@
      #pickerContainer
      [class]="drops + ' ' + opens"
      [ngClass]="{
-    ltr: locale.direction === 'ltr',
-    rtl: this.locale.direction === 'rtl',
+    'show-ranges': rangesArray.length,
     'shown': isShown || inline,
     'hidden': !isShown && !inline,
-    'inline': inline,
     'double': !singleDatePicker && showCalInRanges,
-    'show-ranges': rangesArray.length
+    'inline': inline,
+    'ltr': locale.direction === 'ltr',
+    'rtl': this.locale.direction === 'rtl'
     }">
 
   <div class="card-body p-2">
