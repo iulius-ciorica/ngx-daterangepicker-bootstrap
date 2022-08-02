@@ -340,13 +340,13 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
         top: containerTop,
         right: 'auto',
         bottom: containerBottom,
-        left: inputOffset.left + inputOffset.width / 2 - pickerContainer.offsetWidth / 2 + 'px',
+        left: inputOffset.left + (inputOffset.width - pickerContainer.offsetWidth) / 2 + 'px',
       };
     }
     if (this.opens === 'left') {
       style = {
         top: containerTop,
-        right: (window.innerWidth - (inputOffset.left + inputOffset.width)) + 'px',
+        right: window.innerWidth - (inputOffset.left + inputOffset.width) + 'px',
         bottom: containerBottom,
         left: 'auto',
       };
