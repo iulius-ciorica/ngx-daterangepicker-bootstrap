@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   ApplicationRef,
   ChangeDetectorRef,
@@ -44,7 +45,7 @@ import {NgxDaterangepickerLocaleService} from "./ngx-daterangepicker-locale.serv
     }
   ]
 })
-export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, OnChanges, AfterViewInit {
+export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, OnChanges, AfterViewInit, AfterViewChecked {
 
   public $event: any;
   public daterangepicker: NgxDaterangepickerBootstrapComponent | any;
@@ -298,6 +299,10 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     }
   }
 
+  ngAfterViewChecked() {
+    if (this.daterangepicker.isShown) this.setPosition();
+  }
+
   @HostListener('window:resize', ['$event'])
   onWindowResize() {
     if (this.daterangepicker.isShown) this.setPosition();
@@ -305,7 +310,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
 
   pickerResizeObserver() {
     this._resizeObserver = new ResizeObserver(() => {
-      if (this.daterangepicker.isShown) this.setPosition();
+      // if (this.daterangepicker.isShown) this.setPosition();
     });
     this._resizeObserver.observe(this.daterangepicker.pickerContainer.nativeElement);
   }
