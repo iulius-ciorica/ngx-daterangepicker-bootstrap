@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/scss/bootstrap.scss";
+@import "/node_modules/bootstrap/scss/bootstrap.scss";
 
 /* Hide HTML and body scroll bar in CSS grid context */
 html, body {
@@ -20,7 +20,6 @@ html, body {
 
 html {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
-  overflow: -moz-scrollbars-none; /* Should hide the scroll bar */
 }
 
 /* No scroll bar for Safari and Chrome */
