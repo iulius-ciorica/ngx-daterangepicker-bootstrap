@@ -20,15 +20,9 @@ import {NgxDaterangepickerLocaleService} from "./ngx-daterangepicker-locale.serv
   exports: [
     NgxDaterangepickerBootstrapComponent,
     NgxDaterangepickerBootstrapDirective
-  ],
-  entryComponents: [
-    NgxDaterangepickerBootstrapComponent
   ]
 })
 export class NgxDaterangepickerBootstrapModule {
-
-  constructor() {
-  }
 
   static forRoot(config: LocaleConfig = {}): ModuleWithProviders<NgxDaterangepickerBootstrapModule> {
     return {

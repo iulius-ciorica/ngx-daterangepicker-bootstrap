@@ -1,12 +1,16 @@
 {
   "name": "ngx-daterangepicker-bootstrap",
-  "version": "15.5.0",
-  "description": "Date Range Picker - Angular 15 and Bootstrap 5",
+  "version": "16.5.0",
+  "description": "Date Range Picker - Angular 16 and Bootstrap 5",
   "keywords": [
-    "angular15",
+    "angular",
+    "16",
+    "15",
+    "14",
     "ngx",
     "daterangepicker",
-    "bootstrap5",
+    "bootstrap",
+    "5",
     "component",
     "directive",
     "date",
@@ -14,7 +18,7 @@
     "picker",
     "dayjs"
   ],
-  "homepage": "https://angular-ivy-fdit1j.stackblitz.io/",
+  "homepage": "https://stackblitz.com/edit/ngx-daterangepicker-bootstrap-16-5-0",
   "license": "MIT",
   "author": {
     "name": "Iulius Ciorica",
@@ -26,10 +30,10 @@
     "url": "https://github.com/iulius-ciorica/ngx-daterangepicker-bootstrap.git"
   },
   "peerDependencies": {
-    "@angular/common": "^15.1.0",
-    "@angular/core": "^15.1.0",
-    "bootstrap": "^5.2.3",
-    "dayjs": "^1.11.7"
+    "@angular/common": "^16.2.0",
+    "@angular/core": "^16.2.0",
+    "bootstrap": "^5.3.1",
+    "dayjs": "^1.11.9"
   },
   "dependencies": {
     "tslib": "^2.3.0"
