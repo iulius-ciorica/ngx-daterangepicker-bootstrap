@@ -4,7 +4,7 @@
 
 This `Angular Bootstrap` plugin is compatible with Angular 16.
 It leverages `dayjs` to handle date manipulation and parsing.
-For visuals details use Bootstrap 5.
+Bootstrap 5 is used for visual details.
 This plugin is a fork of [NgxDaterangepickerMaterial](https://github.com/fetrarij/ngx-daterangepicker-material) by Fetrarijaona R. which is an improved version that uses Bootstrap 5.
 The base for this plugin was originally the [Bootstrap Date Range Picker](http://www.daterangepicker.com), but its dependencies on jQuery and moment.js were removed.
 
