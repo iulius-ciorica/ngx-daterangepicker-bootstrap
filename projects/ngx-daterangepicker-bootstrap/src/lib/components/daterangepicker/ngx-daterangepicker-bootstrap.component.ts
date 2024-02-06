@@ -1,35 +1,37 @@
 import {
   ChangeDetectorRef,
-  Component, ElementRef,
+  Component,
+  ElementRef,
   EventEmitter,
   forwardRef,
   Input,
   OnChanges,
   OnInit,
-  Output, SimpleChanges,
+  Output,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {NG_VALUE_ACCESSOR} from "@angular/forms";
-import {LocaleConfig} from "./ngx-daterangepicker-locale.config";
-import {NgxDaterangepickerLocaleService} from "./ngx-daterangepicker-locale.service";
+import {FormsModule, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {LocaleConfig} from "../../utils/ngx-daterangepicker-locale.config";
+import {NgxDaterangepickerLocaleService} from "../../services/ngx-daterangepicker-locale.service";
 import dayjs, {Dayjs} from "dayjs";
 import localeData from "dayjs/plugin/localeData";
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import week from 'dayjs/plugin/weekOfYear';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import {NgClass} from "@angular/common";
+import {SideEnum} from "../../enums/side.enum";
+import {RangesComponent} from "../ranges/ranges.component";
+import {CalendarComponent} from "../calendar/calendar.component";
+import {ActionsComponent} from "../actions/actions.component";
 
 dayjs.extend(localeData);
 dayjs.extend(LocalizedFormat);
 dayjs.extend(isoWeek);
 dayjs.extend(week);
 dayjs.extend(customParseFormat);
-
-export enum SideEnum {
-  left = 'left',
-  right = 'right'
-}
 
 @Component({
   selector: 'ngx-daterangepicker-bootstrap',
@@ -39,6 +41,14 @@ export enum SideEnum {
     '(click)': 'handleInternalClick($event)'
   },
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    NgClass,
+    FormsModule,
+    RangesComponent,
+    CalendarComponent,
+    ActionsComponent,
+  ],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgxDaterangepickerBootstrapComponent),
@@ -52,7 +62,6 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   public calendarVariables: { left: any, right: any } = {left: {}, right: {}};
   public timepickerVariables: { left: any, right: any } = {left: {}, right: {}};
   public applyBtn: { disabled: boolean } = {disabled: false};
-  public sideEnum = SideEnum; // used in template for compile time support of enum values.
   public chosenRange?: string | null;
   public rangesArray: Array<any> = [];
   public isShown: Boolean = false;
@@ -64,8 +73,8 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   private nowHoveredDate: null = null;
   private pickingDate: Boolean = false;
   private _old: { start: any, end: any } = {start: null, end: null};
-  private _minDate?: dayjs.Dayjs | null;
-  private _maxDate?: dayjs.Dayjs | null;
+  public _minDate?: Dayjs | null;
+  public _maxDate?: Dayjs | null;
   private _locale: LocaleConfig = {};
   private _ranges: any = {};
 
@@ -102,7 +111,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   @Input() opens?: string;
   @Input() closeOnAutoApply = true;
 
-  @Input() set minDate(value: dayjs.Dayjs | string) { // accessors
+  @Input() set minDate(value: Dayjs | string) { // accessors
     if (dayjs.isDayjs(value)) {
       this._minDate = value;
     } else {
@@ -110,7 +119,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
     }
   }
 
-  @Input() set maxDate(value: dayjs.Dayjs | string) {
+  @Input() set maxDate(value: Dayjs | string) {
     if (dayjs.isDayjs(value)) {
       this._maxDate = value;
     } else {
@@ -127,7 +136,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
     this.renderRanges();
   }
 
-  @Output() choosedDate: EventEmitter<Object>;
+  @Output() chosenDate: EventEmitter<Object>;
   @Output() rangeClicked: EventEmitter<Object>;
   @Output() datesUpdated: EventEmitter<Object>;
   @Output() startDateChanged: EventEmitter<Object>;
@@ -136,11 +145,11 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   @Output() clearClicked: EventEmitter<void>;
   @ViewChild('pickerContainer', {static: true}) pickerContainer?: ElementRef;
 
-  getMinDate(): dayjs.Dayjs | null | undefined {
+  getMinDate(): Dayjs | null | undefined {
     return this._minDate;
   }
 
-  getMaxDate(): dayjs.Dayjs | null | undefined {
+  getMaxDate(): Dayjs | null | undefined {
     return this._maxDate;
   }
 
@@ -155,7 +164,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   constructor(private el: ElementRef,
               private _ref: ChangeDetectorRef,
               private _localeService: NgxDaterangepickerLocaleService) {
-    this.choosedDate = new EventEmitter();
+    this.chosenDate = new EventEmitter();
     this.rangeClicked = new EventEmitter();
     this.datesUpdated = new EventEmitter();
     this.startDateChanged = new EventEmitter();
@@ -370,7 +379,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
     this.timepickerVariables[side].selected = selected;
   }
 
-  renderCalendar(side: SideEnum) { // side enum
+  renderCalendar(side: SideEnum) { // side enums
     const mainCalendar: any = (side === SideEnum.left) ? this.leftCalendar : this.rightCalendar;
     const month = mainCalendar.month.month();
     const year = mainCalendar.month.year();
@@ -705,7 +714,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
       }
     }
     if (this.chosenLabel) {
-      this.choosedDate.emit({chosenLabel: this.chosenLabel, startDate: this.startDate, endDate: this.endDate});
+      this.chosenDate.emit({chosenLabel: this.chosenLabel, startDate: this.startDate, endDate: this.endDate});
     }
     this.datesUpdated.emit({startDate: this.startDate, endDate: this.endDate, label: this.chosenRange});
     if (e || (this.closeOnAutoApply && !e)) {
@@ -726,32 +735,32 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    * called when month is changed
-   * @param monthEvent get value in event.target.value
-   * @param side left or right
+   * @param object get value in event.target.value / left or right
    */
-  monthChanged(monthEvent: any, side: SideEnum) {
+  monthChanged(object: { $event: any, side: SideEnum }) {
+    const {$event, side} = object;
     const year = this.calendarVariables[side].dropdowns.currentYear;
-    const month = parseInt(monthEvent.target.value, 10);
+    const month = parseInt($event.target.value, 10);
     this.monthOrYearChanged(month, year, side);
   }
 
   /**
    * called when year is changed
-   * @param yearEvent get value in event.target.value
-   * @param side left or right
+   * @param object get value in event.target.value / left or right
    */
-  yearChanged(yearEvent: any, side: SideEnum) {
+  yearChanged(object: { $event: any, side: SideEnum }) {
+    const {$event, side} = object;
     const month = this.calendarVariables[side].dropdowns.currentMonth;
-    const year = parseInt(yearEvent.target.value, 10);
+    const year = parseInt($event.target.value, 10);
     this.monthOrYearChanged(month, year, side);
   }
 
   /**
    * called when time is changed
-   * @param timeEvent  an event
-   * @param side left or right
+   * @param object get value in event.target.value / left or right
    */
-  timeChanged(timeEvent: any, side: SideEnum) {
+  timeChanged(object: { $event: any, side: SideEnum }) {
+    const {$event, side} = object;
     let hour = parseInt(this.timepickerVariables[side].selectedHour, 10);
     const minute = parseInt(this.timepickerVariables[side].selectedMinute, 10);
     const second = this.timePickerSeconds ? parseInt(this.timepickerVariables[side].selectedSecond, 10) : 0;
@@ -843,9 +852,10 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    * Click on previous month
-   * @param side left or right calendar
+   * @param object left or right calendar
    */
-  clickPrev(side: SideEnum) {
+  clickPrev(object: { $event: MouseEvent, side: SideEnum }) {
+    const {$event, side} = object;
     if (side === SideEnum.left) {
       this.leftCalendar.month = this.leftCalendar.month.subtract(1, 'month');
       if (this.linkedCalendars) {
@@ -861,7 +871,8 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
    * Click on next month
    * @param side left or right calendar
    */
-  clickNext(side: SideEnum) {
+  clickNext(object: { $event: MouseEvent, side: SideEnum }) {
+    const {$event, side} = object;
     if (side === SideEnum.left) {
       this.leftCalendar.month = this.leftCalendar.month.add(1, 'month');
     } else {
@@ -875,12 +886,10 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    * When hovering a date
-   * @param e event: get value by e.target.value
-   * @param side left or right
-   * @param row row position of the current date clicked
-   * @param col col position of the current date clicked
+   * @param object get value by e.target.value / side left or right / row position of the current date clicked / col position of the current date clicked
    */
-  hoverDate(e: any, side: SideEnum, row: number, col: number) {
+  hoverDate(object: { $event: any, side: SideEnum, row: number, col: number }) {
+    const {$event, side, row, col} = object;
     const leftCalDate = this.calendarVariables.left.calendar[row][col];
     const rightCalDate = this.calendarVariables.right.calendar[row][col];
     if (this.pickingDate) {
@@ -890,22 +899,20 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
     }
     const tooltip: any = side === SideEnum.left ? this.tooltiptext[leftCalDate] : this.tooltiptext[rightCalDate];
     if (tooltip.length > 0) {
-      e.target.setAttribute('title', tooltip);
+      $event.target.setAttribute('title', tooltip);
     }
   }
 
   /**
    * When selecting a date
-   * @param e event: get value by e.target.value
-   * @param side left or right
-   * @param row row position of the current date clicked
-   * @param col col position of the current date clicked
+   * @param object get value by e.target.value / side left or right / row position of the current date clicked / col position of the current date clicked
    */
-  clickDate(e: any, side: SideEnum, row: number, col: number) {
-    if (e.target.tagName === 'TD') {
-      if (!e.target.classList.contains('available')) return;
-    } else if (e.target.tagName === 'SPAN') {
-      if (!e.target.parentElement.classList.contains('available')) return;
+  clickDate(object: { $event: any, side: SideEnum, row: number, col: number }) {
+    const {$event, side, row, col} = object;
+    if ($event.target.tagName === 'TD') {
+      if (!$event.target.classList.contains('available')) return;
+    } else if ($event.target.tagName === 'SPAN') {
+      if (!$event.target.parentElement.classList.contains('available')) return;
     }
     if (this.rangesArray.length) {
       this.chosenRange = this.locale.customRangeLabel;
@@ -950,15 +957,15 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
       this.clickApply();
     }
     // This is to cancel the blur event handler if the mouse was in one of the inputs
-    e.stopPropagation();
+    $event.stopPropagation();
   }
 
   /**
    *  Click on the custom range
-   * @param e: Event
-   * @param label
+   * @param object
    */
-  clickRange(e: any, label: any) {
+  clickRange(object: { $event: MouseEvent, label: string }) {
+    const {$event, label} = object;
     this.chosenRange = label;
     if (label === this.locale.customRangeLabel) {
       this.isShown = true; // show calendars
@@ -1051,7 +1058,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   }
 
   /**
-   * update the locale options
+   * update the services options
    * @param locale
    */
   updateLocale(locale: any) {
@@ -1068,10 +1075,10 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   /**
    *  clear the daterange picker
    */
-  clear() {
+  clickClear($event: any) {
     this.startDate = dayjs().startOf('day');
     this.endDate = dayjs().endOf('day');
-    this.choosedDate.emit({chosenLabel: '', startDate: null, endDate: null});
+    this.chosenDate.emit({chosenLabel: '', startDate: null, endDate: null});
     this.datesUpdated.emit({startDate: null, endDate: null});
     this.clearClicked.emit();
     this.hide();
@@ -1106,7 +1113,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
    * @param date the date to add time
    * @param side left or right
    */
-  private _getDateWithTime(date: any, side: SideEnum): dayjs.Dayjs {
+  private _getDateWithTime(date: any, side: SideEnum): Dayjs {
     let hour = parseInt(this.timepickerVariables[side].selectedHour, 10);
     if (!this.timePicker24Hour) {
       const ampm = this.timepickerVariables[side].ampmModel;
@@ -1119,7 +1126,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   }
 
   /**
-   *  build the locale config
+   *  build the services config
    */
   private _buildLocale() {
     this.locale = {...this._localeService.config, ...this.locale};
@@ -1222,7 +1229,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
         ) {
           classes.push('in-range');
         }
-        // apply custom classes for this date
+        // actions custom classes for this date
         const isCustom = this.isCustomDate(calendar[row][col]);
         if (isCustom !== false) {
           if (typeof isCustom === 'string') {
@@ -1231,7 +1238,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
             Array.prototype.push.apply(classes, isCustom);
           }
         }
-        // apply custom tooltip for this date
+        // actions custom tooltip for this date
         const isTooltip = this.isTooltipDate(calendar[row][col]);
         if (isTooltip) {
           if (typeof isTooltip === 'string') {

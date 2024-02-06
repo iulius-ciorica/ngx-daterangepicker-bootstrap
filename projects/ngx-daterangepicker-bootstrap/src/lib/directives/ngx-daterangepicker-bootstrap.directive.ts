@@ -26,9 +26,9 @@ import {
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
 import dayjs from 'dayjs';
-import {NgxDaterangepickerBootstrapComponent} from "./ngx-daterangepicker-bootstrap.component";
-import {LocaleConfig} from "./ngx-daterangepicker-locale.config";
-import {NgxDaterangepickerLocaleService} from "./ngx-daterangepicker-locale.service";
+import {NgxDaterangepickerBootstrapComponent} from "../components/daterangepicker/ngx-daterangepicker-bootstrap.component";
+import {LocaleConfig} from "../utils/ngx-daterangepicker-locale.config";
+import {NgxDaterangepickerLocaleService} from "../services/ngx-daterangepicker-locale.service";
 
 @Directive({
   selector: 'input[ngxDaterangepickerBootstrap]',
@@ -38,6 +38,7 @@ import {NgxDaterangepickerLocaleService} from "./ngx-daterangepicker-locale.serv
     '(blur)': 'onBlur()',
     '(keyup)': 'inputChanged($event)'
   },
+  standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -188,7 +189,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     this.daterangepicker.clearClicked.asObservable().subscribe(() => {
       this.clearClicked.emit();
     });
-    this.daterangepicker.choosedDate.asObservable().subscribe((change: any) => {
+    this.daterangepicker.chosenDate.asObservable().subscribe((change: any) => {
       if (change) {
         const value = {} as any;
         value[this._startKey] = change.startDate;
@@ -262,7 +263,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   }
 
   clear() {
-    this.daterangepicker.clear();
+    this.daterangepicker.clickClear();
   }
 
   writeValue(value: any) {
@@ -295,7 +296,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
         this._el.nativeElement.value = this.daterangepicker.chosenLabel;
       }
     } else {
-      this.daterangepicker.clear();
+      this.daterangepicker.clickClear();
     }
   }
 

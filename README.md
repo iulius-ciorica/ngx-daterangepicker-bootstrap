@@ -1,16 +1,13 @@
 # ngx-daterangepicker-bootstrap
 
-> Date range picker - Angular 16 and Bootstrap 5
+> Date range picker - Angular 17 and Bootstrap 5
 
-This `Angular Bootstrap` plugin is compatible with Angular 16.
-It leverages `dayjs` to handle date manipulation and parsing.
-Bootstrap 5 is used for visual details.
-This plugin is a fork of [NgxDaterangepickerMaterial](https://github.com/fetrarij/ngx-daterangepicker-material) by Fetrarijaona R. which is an improved version that uses Bootstrap 5.
-The base for this plugin was originally the [Bootstrap Date Range Picker](http://www.daterangepicker.com), but its dependencies on jQuery and moment.js were removed.
+This `Angular Bootstrap` plugin is compatible with Angular 17. \
+It leverages `dayjs` to handle date manipulation and parsing and `Bootstrap 5` is used for visual details. \
+This plugin is a fork of [NgxDaterangepickerMaterial](https://github.com/fetrarij/ngx-daterangepicker-material) by Fetrarijaona R. which is an improved version that uses `Bootstrap 5`. \
+The base for this plugin was originally the [Bootstrap Date Range Picker](http://www.daterangepicker.com), but its dependencies on `jQuery` and `moment.js` were removed.
 
 ![](https://i.postimg.cc/mkjyzxk5/ngx-daterangepicker-bootstrap.png)
-
-For the moment use demo of the forked version for other detalis: https://fetrarij.github.io/ngx-daterangepicker-material/
 
 ---
 
@@ -18,9 +15,11 @@ For the moment use demo of the forked version for other detalis: https://fetrari
 
 | Angular | Bootstrap | ngx-daterangepicker-bootstrap |
 |---------|:----------|:-----------------------------:|
+| 17.1.0  | 5.3.0     |            17.5.x             |
 | 16.2.0  | 5.3.0     |            16.5.x             |
 | 15.1.0  | 5.2.0     |            15.5.x             |
 | 14.1.0  | 5.2.0     |            14.5.x             |
+
 
 ---
 
@@ -28,7 +27,103 @@ For the moment use demo of the forked version for other detalis: https://fetrari
 
 Install the plugin from npm:
 
-`npm install ngx-daterangepicker-bootstrap --save` .
+`npm install ngx-daterangepicker-bootstrap --save`
+
+---
+## Configuration for standalone, version 17
+
+[StackBlitz | Date Range Picker - Angular 17 and Bootstrap 5](https://stackblitz.com/edit/ngx-daterangepicker-bootstrap-17-5-0)
+
+Using new standalone:
+
+import **provideDaterangepickerLocale** provider function **(recomended)**, in app.config.ts:
+
+````typescript
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
+import { provideDaterangepickerLocale } from "ngx-daterangepicker-bootstrap";
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideDaterangepickerLocale({
+      separator: ' - ',
+      applyLabel: 'Okay',
+    })
+  ]
+};
+
+````
+import **NgxDaterangepickerBootstrapComponent** standalone component \
+and **NgxDaterangepickerBootstrapDirective** standalone directive, in your component (example app.component.ts)
+````typescript
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { FormsModule} from "@angular/forms";
+import { NgxDaterangepickerBootstrapDirective, NgxDaterangepickerBootstrapComponent } from "ngx-daterangepicker-bootstrap";
+import dayjs, { Dayjs } from "dayjs";
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, FormsModule, NgxDaterangepickerBootstrapDirective, NgxDaterangepickerBootstrapComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class AppComponent {
+  ...
+}
+
+````
+---
+or, using old module:
+
+import **NgxDaterangepickerBootstrapModule** module, in app.config.ts:
+````typescript
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
+import { NgxDaterangepickerBootstrapModule } from "ngx-daterangepicker-bootstrap";
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    importProvidersFrom(NgxDaterangepickerBootstrapModule.forRoot({
+      separator: ' - ',
+      applyLabel: 'Okay',
+    }))
+  ]
+};
+
+````
+
+import **NgxDaterangepickerBootstrapModule** module, in your component (example app.component.ts)
+````typescript
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { FormsModule } from "@angular/forms";
+import { NgxDaterangepickerBootstrapModule } from "ngx-daterangepicker-bootstrap";
+import dayjs, { Dayjs } from "dayjs";
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, FormsModule, NgxDaterangepickerBootstrapModule],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class AppComponent {
+  ...
+}
+
+````
+
+---
+
+## Configuration for module, versions 17, 16, 15 and 14
+
+[StackBlitz | Date Range Picker - Angular 16 and Bootstrap 5](https://stackblitz.com/edit/ngx-daterangepicker-bootstrap-16-5-0)
 
 import **NgxDaterangepickerModule** and **NgxDaterangepickerLocaleService** in your module:
 
@@ -85,13 +180,14 @@ and [browse our demo code here](./demo/src/app).
 
 ## Inline usage
 
-You can use the component directly in your templates, which will set its `inline` mode to **true**, in which case the calendar won't hide after date/range selection. You can then use the events: `rangeClicked` or `datesUpdated` or `choosedDate` to get its selection state.
+You can use the component directly in your templates, which will set its `inline` mode to **true**, in which case the calendar won't hide after date/range selection. You can then use the events: `rangeClicked` or `datesUpdated` or `chosenDate` to get its selection state.
 
 ```html
-<ngx-daterangepicker-bootstrap (choosedDate)="choosedDate($event)">
+<ngx-daterangepicker-bootstrap (chosenDate)="chosenDate($event)">
 </ngx-daterangepicker-bootstrap>
 ```
 
+Here is the demo of the forked version for other detalis: https://fetrarij.github.io/ngx-daterangepicker-material/
 
 ## Available options
 
@@ -202,7 +298,7 @@ It is possible to open datepicker from outside. You should create an input with 
 ```typescript
 
   ...
-    @ViewChild(NgxDaterangepickerBootstrapDirective, { static: false }) pickerDirective: NgxDaterangepickerBootstrapDirective;
+    @ViewChild(NgxDaterangepickerBootstrapStandaloneDirective, { static: false }) pickerDirective: NgxDaterangepickerBootstrapStandaloneDirective;
   ...
   ...
   openDatepicker() {

@@ -1,21 +1,20 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
-import {NgxDaterangepickerBootstrapComponent} from './ngx-daterangepicker-bootstrap.component';
-import {NgxDaterangepickerBootstrapDirective} from "./ngx-daterangepicker-bootstrap.directive";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {LOCALE_CONFIG, LocaleConfig} from "./ngx-daterangepicker-locale.config";
-import {NgxDaterangepickerLocaleService} from "./ngx-daterangepicker-locale.service";
+import {NgxDaterangepickerBootstrapComponent} from "../components/daterangepicker/ngx-daterangepicker-bootstrap.component";
+import {NgxDaterangepickerBootstrapDirective} from "../directives/ngx-daterangepicker-bootstrap.directive";
+import {LOCALE_CONFIG, LocaleConfig} from "../utils/ngx-daterangepicker-locale.config";
+import {NgxDaterangepickerLocaleService} from "../services/ngx-daterangepicker-locale.service";
 
 
 @NgModule({
-  declarations: [
-    NgxDaterangepickerBootstrapComponent,
-    NgxDaterangepickerBootstrapDirective
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxDaterangepickerBootstrapComponent,
+    NgxDaterangepickerBootstrapDirective
   ],
   exports: [
     NgxDaterangepickerBootstrapComponent,

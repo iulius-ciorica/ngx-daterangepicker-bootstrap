@@ -1,0 +1,63 @@
+/*
+*  variables
+*/
+$daterangepicker-color: inherit !default;
+$daterangepicker-bg-color: #fff !default;
+
+$daterangepicker-cell-color: $daterangepicker-color !default;
+$daterangepicker-cell-border-color: transparent !default;
+$daterangepicker-cell-bg-color: $daterangepicker-bg-color !default;
+
+$daterangepicker-cell-hover-color: $daterangepicker-color !default;
+$daterangepicker-cell-hover-border-color: $daterangepicker-cell-border-color !default;
+$daterangepicker-cell-hover-bg-color: #eee !default;
+
+$daterangepicker-in-range-color: #000 !default;
+$daterangepicker-in-range-border-color: transparent !default;
+$daterangepicker-in-range-bg-color: #ebf4f8 !default;
+
+$daterangepicker-active-color: #fff !default;
+$daterangepicker-active-bg-color: #08c !default;
+$daterangepicker-active-border-color: transparent !default;
+
+$daterangepicker-unselected-color: #999 !default;
+$daterangepicker-unselected-border-color: transparent !default;
+$daterangepicker-unselected-bg-color: #fff !default;
+
+$daterangepicker-width: 278px !default;
+$daterangepicker-width-double: auto !default;
+$daterangepicker-border-color: #ccc !default;
+
+$daterangepicker-calendar-margin: 4px !default;
+$daterangepicker-calendar-bg-color: $daterangepicker-bg-color !default;
+
+$daterangepicker-calendar-border-size: 1px !default;
+$daterangepicker-calendar-border-color: $daterangepicker-bg-color !default;
+$daterangepicker-calendar-border-radius: 50%;
+
+$daterangepicker-cell-size: 20px !default;
+$daterangepicker-cell-width: $daterangepicker-cell-size !default;
+$daterangepicker-cell-height: $daterangepicker-cell-size !default;
+
+$daterangepicker-cell-border-radius: $daterangepicker-calendar-border-radius !default;
+$daterangepicker-cell-border-size: 1px !default;
+
+$daterangepicker-control-height: 30px !default;
+$daterangepicker-control-line-height: $daterangepicker-control-height !default;
+$daterangepicker-control-color: #555 !default;
+
+$daterangepicker-control-border-size: 1px !default;
+$daterangepicker-control-border-color: #ccc !default;
+$daterangepicker-control-border-radius: calc(0.5rem - 1px) !default;
+
+$daterangepicker-control-active-border-size: 1px !default;
+$daterangepicker-control-active-border-color: #08c !default;
+$daterangepicker-control-active-border-radius: $daterangepicker-control-border-radius !default;
+
+$daterangepicker-control-disabled-color: #ccc !default;
+// Select
+$select-border: 1px solid #f2f2f2 !default;
+$select-background: rgba(255, 255, 255, 0.90) !default;
+$select-padding: 5px !default;
+$select-radius: calc(0.5rem - 1px) !default;
+$input-height: 3rem !default;

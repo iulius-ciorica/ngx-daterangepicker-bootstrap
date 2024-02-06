@@ -1,10 +1,24 @@
-import {Component} from '@angular/core';
-import dayjs from "dayjs";
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import dayjs, {Dayjs} from "dayjs";
+import {FormsModule} from "@angular/forms";
+import {
+  NgxDaterangepickerBootstrapDirective
+} from "../../projects/ngx-daterangepicker-bootstrap/src/lib/directives/ngx-daterangepicker-bootstrap.directive";
+import {
+  NgxDaterangepickerBootstrapComponent
+} from "../../projects/ngx-daterangepicker-bootstrap/src/lib/components/daterangepicker/ngx-daterangepicker-bootstrap.component";
+import {
+  NgxDaterangepickerBootstrapModule
+} from "../../projects/ngx-daterangepicker-bootstrap/src/lib/modules/ngx-daterangepicker-bootstrap.module";
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, FormsModule, NgxDaterangepickerBootstrapDirective, NgxDaterangepickerBootstrapComponent],
+  // imports: [RouterOutlet, FormsModule, NgxDaterangepickerBootstrapModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'daterangepicker-bootstrap-sdk';
@@ -23,16 +37,16 @@ export class AppComponent {
   selectedSimpleCalendarUpCenter: any;
   selectedSimpleCalendarAutoUpLeft: any;
   selectedRangeCalendarTimeInline: any;
-  maxDate?: dayjs.Dayjs;
-  minDate?: dayjs.Dayjs;
-  invalidDates: dayjs.Dayjs[] = [];
+  maxDate?: Dayjs;
+  minDate?: Dayjs;
+  invalidDates: Dayjs[] = [];
   ranges: any = {
     'Today': [dayjs().startOf('day'), dayjs().endOf('day')],
-    'Yesterday': [dayjs().startOf('day').subtract(1, 'day'), dayjs().endOf('day').subtract(1, 'day')],
-    'Last 7 days': [dayjs().startOf('day').subtract(6, 'days'), dayjs().endOf('day')],
-    'Last 30 days': [dayjs().startOf('day').subtract(29, 'days'), dayjs().endOf('day')],
+    'Yesterday': [dayjs().subtract(1, 'day').startOf('day'), dayjs().subtract(1, 'day').endOf('day')],
+    'Last 7 days': [dayjs().subtract(6, 'days').startOf('day'), dayjs().endOf('day')],
+    'Last 30 days': [dayjs().subtract(29, 'days').startOf('day'), dayjs().endOf('day')],
     'This month': [dayjs().startOf('month'), dayjs().endOf('month')],
-    'Last month': [dayjs().startOf('month').subtract(1, 'month'), dayjs().endOf('month').subtract(1, 'month')]
+    'Last month': [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
   };
   localeTime = {
     firstDay: 1,
@@ -93,17 +107,17 @@ export class AppComponent {
     };
   }
 
-  isInvalidDate = (m: dayjs.Dayjs) => {
+  isInvalidDate = (m: Dayjs) => {
     return this.invalidDates.some(d => d.isSame(m, 'day'));
   };
 
-  isCustomDate = (date: dayjs.Dayjs) => {
+  isCustomDate = (date: Dayjs) => {
     return (date.month() === 0 || date.month() === 6)
       ? 'mycustomdate'
       : false;
   };
 
-  isTooltipDate = (m: dayjs.Dayjs) => {
+  isTooltipDate = (m: Dayjs) => {
     const tooltip = this.tooltips.find(tt => tt.date.isSame(m, 'day'));
     return tooltip ? tooltip.text : false;
   };

@@ -1,0 +1,16 @@
+@if (rangesArray.length) {
+  <div class='ranges'>
+    <ul>
+      @for (range of rangesArray; track $index) {
+        <li>
+          <button type='button'
+                  (click)='clickRange($event, range)'
+                  [disabled]='disableRange(range)'
+                  [ngClass]="{'active': range === chosenRange}">
+            {{ range }}
+          </button>
+        </li>
+      }
+    </ul>
+  </div>
+}

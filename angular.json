@@ -15,7 +15,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": [
               "dayjs"
@@ -23,7 +23,7 @@
             "preserveSymlinks": true,
             "outputPath": "dist/daterangepicker-bootstrap-sdk",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -51,18 +51,15 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "6kb"
                 }
               ],
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -71,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "daterangepicker-bootstrap-sdk:build:production"
+              "buildTarget": "daterangepicker-bootstrap-sdk:build:production"
             },
             "development": {
-              "browserTarget": "daterangepicker-bootstrap-sdk:build:development"
+              "buildTarget": "daterangepicker-bootstrap-sdk:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "daterangepicker-bootstrap-sdk:build"
+            "buildTarget": "daterangepicker-bootstrap-sdk:build"
           }
         },
         "test": {

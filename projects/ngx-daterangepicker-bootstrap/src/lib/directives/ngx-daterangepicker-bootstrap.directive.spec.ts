@@ -2,7 +2,7 @@ import { NgxDaterangepickerBootstrapDirective } from './ngx-daterangepicker-boot
 
 describe('NgxDaterangepickerBootstrapDirective', () => {
   it('should create an instance', () => {
-    // const directive = new NgxDaterangepickerBootstrapDirective();
+    // const directive = new NgxDaterangepickerBootstrapStandaloneDirective();
     // expect(directive).toBeTruthy();
   });
 });

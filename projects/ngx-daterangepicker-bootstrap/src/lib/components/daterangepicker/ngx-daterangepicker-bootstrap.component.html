@@ -1,0 +1,61 @@
+<div #pickerContainer
+     class='card daterangepicker'
+     [class]="drops + ' ' + opens"
+     [ngClass]="{
+    'show-ranges': rangesArray.length,
+    'shown': isShown || inline,
+    'hidden': !isShown && !inline,
+    'double': !singleDatePicker && showCalInRanges,
+    'inline': inline,
+    'ltr': locale.direction === 'ltr',
+    'rtl': this.locale.direction === 'rtl'
+    }">
+
+  <div class="card-body p-2">
+    <ranges
+      [rangesArray]="rangesArray"
+      [chosenRange]="chosenRange"
+      [locale]="locale"
+      [ranges]="ranges"
+      [_minDate]="_minDate"
+      [_maxDate]="_maxDate"
+      (rangeEvent)='clickRange($event)'
+    />
+    <calendar
+      [showCalInRanges]="showCalInRanges"
+      [singleDatePicker]="singleDatePicker"
+      [calendarVariables]="calendarVariables"
+      [showWeekNumbers]="showWeekNumbers"
+      [showISOWeekNumbers]="showISOWeekNumbers"
+      [linkedCalendars]="linkedCalendars"
+      [showDropdowns]="showDropdowns"
+      [locale]="locale"
+      [timePicker]="timePicker"
+      [startDate]="startDate"
+      [timepickerVariables]="timepickerVariables"
+      [timePickerSeconds]="timePickerSeconds"
+      [timePicker24Hour]="timePicker24Hour"
+      (prevEvent)='clickPrev($event)'
+      (nextEvent)='clickNext($event)'
+      (monthChangedEvent)='monthChanged($event)'
+      (yearChangedEvent)='yearChanged($event)'
+      (dateEvent)='clickDate($event)'
+      (hoverDateEvent)='hoverDate($event)'
+      (timeChangedEvent)='timeChanged($event)'
+    />
+  </div>
+  <actions
+    [autoApply]="autoApply"
+    [rangesArray]="rangesArray"
+    [showCalInRanges]="showCalInRanges"
+    [singleDatePicker]="singleDatePicker"
+    [chosenLabel]="chosenLabel"
+    [applyBtn]="applyBtn"
+    [locale]="locale"
+    [showCancel]="showCancel"
+    [showClearButton]="showClearButton"
+    (applyEvent)='clickApply($event)'
+    (cancelEvent)='clickCancel($event)'
+    (clearEvent)='clickClear($event)'
+  />
+</div>

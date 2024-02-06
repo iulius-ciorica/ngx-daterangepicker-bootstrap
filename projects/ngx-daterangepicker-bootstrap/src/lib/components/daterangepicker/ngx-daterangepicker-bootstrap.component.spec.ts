@@ -6,10 +6,12 @@ describe('NgxDaterangepickerBootstrapComponent', () => {
   let component: NgxDaterangepickerBootstrapComponent;
   let fixture: ComponentFixture<NgxDaterangepickerBootstrapComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [NgxDaterangepickerBootstrapComponent]
-    });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [NgxDaterangepickerBootstrapComponent]
+    })
+    .compileComponents();
+
     fixture = TestBed.createComponent(NgxDaterangepickerBootstrapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
