@@ -735,7 +735,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    * called when month is changed
-   * @param object get value in event.target.value / left or right
+   * @param object get month value in $event.target.value / side left or right
    */
   monthChanged(object: { $event: any, side: SideEnum }) {
     const {$event, side} = object;
@@ -746,7 +746,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    * called when year is changed
-   * @param object get value in event.target.value / left or right
+   * @param object get year value in $event.target.value / side left or right
    */
   yearChanged(object: { $event: any, side: SideEnum }) {
     const {$event, side} = object;
@@ -757,7 +757,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    * called when time is changed
-   * @param object get value in event.target.value / left or right
+   * @param object time $event / side left or right
    */
   timeChanged(object: { $event: any, side: SideEnum }) {
     const {$event, side} = object;
@@ -852,7 +852,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    * Click on previous month
-   * @param object left or right calendar
+   * @param object previous $event / side left or right calendar
    */
   clickPrev(object: { $event: MouseEvent, side: SideEnum }) {
     const {$event, side} = object;
@@ -869,7 +869,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    * Click on next month
-   * @param side left or right calendar
+   * @param object next $event / side left or right calendar
    */
   clickNext(object: { $event: MouseEvent, side: SideEnum }) {
     const {$event, side} = object;
@@ -886,7 +886,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    * When hovering a date
-   * @param object get value by e.target.value / side left or right / row position of the current date clicked / col position of the current date clicked
+   * @param object get value by $event.target.value / side left or right / row or col position of the current date clicked
    */
   hoverDate(object: { $event: any, side: SideEnum, row: number, col: number }) {
     const {$event, side, row, col} = object;
@@ -905,7 +905,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    * When selecting a date
-   * @param object get value by e.target.value / side left or right / row position of the current date clicked / col position of the current date clicked
+   * @param object get value by $event.target.value / side left or right / row or col position of the current date clicked
    */
   clickDate(object: { $event: any, side: SideEnum, row: number, col: number }) {
     const {$event, side, row, col} = object;
@@ -962,7 +962,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 
   /**
    *  Click on the custom range
-   * @param object
+   * @param object $event / label
    */
   clickRange(object: { $event: MouseEvent, label: string }) {
     const {$event, label} = object;
@@ -1058,7 +1058,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   }
 
   /**
-   * update the services options
+   * update the locale options
    * @param locale
    */
   updateLocale(locale: any) {
@@ -1126,7 +1126,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
   }
 
   /**
-   *  build the services config
+   *  build the locale config
    */
   private _buildLocale() {
     this.locale = {...this._localeService.config, ...this.locale};
@@ -1229,7 +1229,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
         ) {
           classes.push('in-range');
         }
-        // actions custom classes for this date
+        // apply custom classes for this date
         const isCustom = this.isCustomDate(calendar[row][col]);
         if (isCustom !== false) {
           if (typeof isCustom === 'string') {
@@ -1238,7 +1238,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
             Array.prototype.push.apply(classes, isCustom);
           }
         }
-        // actions custom tooltip for this date
+        // apply custom tooltip for this date
         const isTooltip = this.isTooltipDate(calendar[row][col]);
         if (isTooltip) {
           if (typeof isTooltip === 'string') {
