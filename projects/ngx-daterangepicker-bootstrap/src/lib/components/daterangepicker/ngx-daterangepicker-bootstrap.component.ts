@@ -1012,6 +1012,8 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
           this.renderTimePicker(SideEnum.left);
           this.renderTimePicker(SideEnum.right);
         }
+        // enable apply button after selecting a range
+        this.applyBtn.disabled = false;
       }
     }
   }
