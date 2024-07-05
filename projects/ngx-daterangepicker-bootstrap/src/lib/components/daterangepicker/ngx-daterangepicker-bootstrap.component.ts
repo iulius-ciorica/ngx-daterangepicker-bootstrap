@@ -948,9 +948,6 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
       this.applyBtn.disabled = false;
       this.setEndDate(this.startDate);
       this.updateElement();
-      if (this.autoApply) {
-        this.clickApply();
-      }
     }
     this.updateView();
     if (this.autoApply && this.startDate && this.endDate) {
