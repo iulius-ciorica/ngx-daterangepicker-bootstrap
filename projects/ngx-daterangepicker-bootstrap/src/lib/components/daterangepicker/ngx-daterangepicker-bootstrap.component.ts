@@ -967,6 +967,8 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
     if (label === this.locale.customRangeLabel) {
       this.isShown = true; // show calendars
       this.showCalInRanges = true;
+      // disable apply button after selecting custom range
+      this.applyBtn.disabled = true;
     } else {
       const dates = this.ranges[label];
       this.startDate = dates[0].clone();
