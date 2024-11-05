@@ -779,6 +779,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
       start = start?.minute(minute);
       start = start?.second(second);
       this.setStartDate(start);
+      this.setEndDate(this.endDate?.clone());
       if (this.singleDatePicker) {
         this.endDate = this.startDate?.clone();
       } else if (this.endDate && this.endDate.format('YYYY-MM-DD') === start?.format('YYYY-MM-DD') && this.endDate.isBefore(start)) {
@@ -792,6 +793,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
         }
       }
     } else if (this.endDate) {
+      this.setStartDate(this.startDate?.clone());
       let end = this.endDate.clone();
       end = end.hour(hour);
       end = end.minute(minute);
@@ -806,6 +808,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
     if (this.autoApply) {
       this.clickApply();
     }
+    this.applyBtn.disabled = false;
   }
 
   /**
