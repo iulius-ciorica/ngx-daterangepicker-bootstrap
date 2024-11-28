@@ -136,7 +136,6 @@ td {
 
   &.active {
     transition: background 300ms ease-out;
-    background: rgba(0, 0, 0, 0.1);
 
     &, &:hover {
       background-color: $daterangepicker-active-bg-color;

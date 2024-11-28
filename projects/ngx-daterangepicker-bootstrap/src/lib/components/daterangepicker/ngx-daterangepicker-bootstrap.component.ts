@@ -23,9 +23,9 @@ import week from 'dayjs/plugin/weekOfYear';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import {NgClass} from "@angular/common";
 import {SideEnum} from "../../enums/side.enum";
-import {RangesComponent} from "../ranges/ranges.component";
-import {CalendarComponent} from "../calendar/calendar.component";
-import {ActionsComponent} from "../actions/actions.component";
+import {RangesComponent} from '../ranges/ranges.component';
+import {CalendarComponent} from '../calendar/calendar.component';
+import {ActionsComponent} from '../actions/actions.component';
 
 dayjs.extend(localeData);
 dayjs.extend(LocalizedFormat);
@@ -35,13 +35,6 @@ dayjs.extend(customParseFormat);
 
 @Component({
   selector: 'ngx-daterangepicker-bootstrap',
-  styleUrls: ['./ngx-daterangepicker-bootstrap.component.scss'],
-  templateUrl: './ngx-daterangepicker-bootstrap.component.html',
-  host: {
-    '(click)': 'handleInternalClick($event)'
-  },
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [
     NgClass,
     FormsModule,
@@ -49,11 +42,17 @@ dayjs.extend(customParseFormat);
     CalendarComponent,
     ActionsComponent,
   ],
+  templateUrl: './ngx-daterangepicker-bootstrap.component.html',
+  styleUrl: './ngx-daterangepicker-bootstrap.component.scss',
+  host: {
+    '(click)': 'handleInternalClick($event)'
+  },
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgxDaterangepickerBootstrapComponent),
     multi: true
-  }]
+  }],
+  encapsulation: ViewEncapsulation.None,
 })
 export class NgxDaterangepickerBootstrapComponent implements OnInit, OnChanges {
 

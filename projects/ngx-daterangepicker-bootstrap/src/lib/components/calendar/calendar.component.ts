@@ -1,14 +1,13 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {SideEnum} from "../../enums/side.enum";
-import {FormsModule} from "@angular/forms";
-import {NgClass} from "@angular/common";
+import {SideEnum} from '../../enums/side.enum';
+import {NgClass} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'calendar',
-  standalone: true,
   imports: [
-    FormsModule,
-    NgClass
+    NgClass,
+    FormsModule
   ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'

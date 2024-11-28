@@ -1,27 +1,23 @@
 import {Component} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import dayjs, {Dayjs} from "dayjs";
-import {FormsModule} from "@angular/forms";
+import dayjs, {Dayjs} from 'dayjs';
 import {
   NgxDaterangepickerBootstrapDirective
 } from "../../projects/ngx-daterangepicker-bootstrap/src/lib/directives/ngx-daterangepicker-bootstrap.directive";
 import {
   NgxDaterangepickerBootstrapComponent
 } from "../../projects/ngx-daterangepicker-bootstrap/src/lib/components/daterangepicker/ngx-daterangepicker-bootstrap.component";
-import {
-  NgxDaterangepickerBootstrapModule
-} from "../../projects/ngx-daterangepicker-bootstrap/src/lib/modules/ngx-daterangepicker-bootstrap.module";
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, FormsModule, NgxDaterangepickerBootstrapDirective, NgxDaterangepickerBootstrapComponent],
-  // imports: [RouterOutlet, FormsModule, NgxDaterangepickerBootstrapModule],
+  imports: [NgxDaterangepickerBootstrapDirective, FormsModule, NgxDaterangepickerBootstrapComponent],
+  // imports: [FormsModule, NgxDaterangepickerBootstrapModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'daterangepicker-bootstrap-sdk';
+
+  title = 'ngx-daterangepicker-bootstrap-sdk';
   dropsDown = 'down';
   dropsUp = 'up';
   opensRight = 'right';

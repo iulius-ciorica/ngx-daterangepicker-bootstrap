@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "daterangepicker-bootstrap-sdk": {
+    "ngx-daterangepicker-bootstrap-sdk": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,11 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "allowedCommonJsDependencies": [
-              "dayjs"
-            ],
-            "preserveSymlinks": true,
-            "outputPath": "dist/daterangepicker-bootstrap-sdk",
+            "outputPath": "dist/ngx-daterangepicker-bootstrap-sdk",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -40,7 +36,17 @@
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.js"
-            ]
+            ],
+            "stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": [
+                  "mixed-decls",
+                  "color-functions",
+                  "global-builtin",
+                  "import"
+                ]
+              }
+            }
           },
           "configurations": {
             "production": {
@@ -52,8 +58,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -70,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "daterangepicker-bootstrap-sdk:build:production"
+              "buildTarget": "ngx-daterangepicker-bootstrap-sdk:build:production"
             },
             "development": {
-              "buildTarget": "daterangepicker-bootstrap-sdk:build:development"
+              "buildTarget": "ngx-daterangepicker-bootstrap-sdk:build:development"
             }
           },
           "defaultConfiguration": "development"

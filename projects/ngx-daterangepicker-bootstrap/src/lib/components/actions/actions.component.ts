@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'actions',
-  standalone: true,
   imports: [],
   templateUrl: './actions.component.html',
   styleUrl: './actions.component.scss'

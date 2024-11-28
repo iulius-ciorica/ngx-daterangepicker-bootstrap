@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgxDaterangepickerBootstrapComponent } from './ngx-daterangepicker-bootstrap.component';
 
-describe('NgxDaterangepickerBootstrapComponent', () => {
+describe('DaterangepickerComponent', () => {
   let component: NgxDaterangepickerBootstrapComponent;
   let fixture: ComponentFixture<NgxDaterangepickerBootstrapComponent>;
 

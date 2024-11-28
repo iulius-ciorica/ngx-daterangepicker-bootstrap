@@ -24,11 +24,13 @@ import {
   SimpleChanges,
   ViewContainerRef
 } from '@angular/core';
-import {NG_VALUE_ACCESSOR} from "@angular/forms";
+import {NG_VALUE_ACCESSOR} from '@angular/forms';
+import {
+  NgxDaterangepickerBootstrapComponent
+} from '../components/daterangepicker/ngx-daterangepicker-bootstrap.component';
+import {LocaleConfig} from '../utils/ngx-daterangepicker-locale.config';
+import {NgxDaterangepickerLocaleService} from '../services/ngx-daterangepicker-locale.service';
 import dayjs from 'dayjs';
-import {NgxDaterangepickerBootstrapComponent} from "../components/daterangepicker/ngx-daterangepicker-bootstrap.component";
-import {LocaleConfig} from "../utils/ngx-daterangepicker-locale.config";
-import {NgxDaterangepickerLocaleService} from "../services/ngx-daterangepicker-locale.service";
 
 @Directive({
   selector: 'input[ngxDaterangepickerBootstrap]',
@@ -38,7 +40,6 @@ import {NgxDaterangepickerLocaleService} from "../services/ngx-daterangepicker-l
     '(blur)': 'onBlur()',
     '(keyup)': 'inputChanged($event)'
   },
-  standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

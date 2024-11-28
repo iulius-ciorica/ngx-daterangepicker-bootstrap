@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'daterangepicker-bootstrap-sdk' title`, () => {
+  it(`should have the 'ngx-daterangepicker-bootstrap-sdk' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('daterangepicker-bootstrap-sdk');
+    expect(app.title).toEqual('ngx-daterangepicker-bootstrap-sdk');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, daterangepicker-bootstrap-sdk');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ngx-daterangepicker-bootstrap-sdk');
   });
 });

@@ -1,10 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgClass} from "@angular/common";
-import {Dayjs} from "dayjs";
+import {Dayjs} from 'dayjs';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'ranges',
-  standalone: true,
   imports: [
     NgClass
   ],
@@ -12,6 +11,7 @@ import {Dayjs} from "dayjs";
   styleUrl: './ranges.component.scss'
 })
 export class RangesComponent {
+
   @Input() rangesArray: Array<any> = [];
   @Input() chosenRange: any;
   @Input() locale: any;
