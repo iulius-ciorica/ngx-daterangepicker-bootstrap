@@ -1,25 +1,25 @@
-@if (!autoApply && (!rangesArray.length || (showCalInRanges && !singleDatePicker))) {
+@if (!autoApply() && (!rangesArray().length || (showCalInRanges() && !singleDatePicker()))) {
   <div class="card-footer">
-    <span style="display: inline-block; padding: 7px;">{{ chosenLabel }}</span>
+    <span style="display: inline-block; padding: 7px;">{{ chosenLabel() }}</span>
     <button type='button'
             class='btn btn-primary float-end'
             (click)='clickApply($event)'
-            [disabled]='applyBtn.disabled'>
-      {{ locale.applyLabel }}
+            [disabled]='applyBtn().disabled'>
+      {{ locale().applyLabel }}
     </button>
-    @if (showCancel) {
+    @if (showCancel()) {
       <button type='button'
               class='btn btn-secondary me-2 float-end'
               (click)='clickCancel($event)'>
-        {{ locale.cancelLabel }}
+        {{ locale().cancelLabel }}
       </button>
     }
-    @if (showClearButton) {
+    @if (showClearButton()) {
       <button type='button'
               class='btn btn-outline-dark me-2 float-end'
               (click)='clickClear($event)'
-              [title]='locale.clearLabel'>
-        {{ locale.clearLabel }}
+              [title]='locale().clearLabel'>
+        {{ locale().clearLabel }}
       </button>
     }
   </div>

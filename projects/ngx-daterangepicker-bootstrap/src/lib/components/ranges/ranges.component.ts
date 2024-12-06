@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Dayjs} from 'dayjs';
+import {ChangeDetectionStrategy, Component, input, InputSignal, output, OutputEmitterRef} from '@angular/core';
 import {NgClass} from '@angular/common';
+import {Dayjs} from 'dayjs';
 
 @Component({
   selector: 'ranges',
@@ -8,19 +8,20 @@ import {NgClass} from '@angular/common';
     NgClass
   ],
   templateUrl: './ranges.component.html',
-  styleUrl: './ranges.component.scss'
+  styleUrl: './ranges.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RangesComponent {
 
-  @Input() rangesArray: Array<any> = [];
-  @Input() chosenRange: any;
-  @Input() locale: any;
-  @Input() ranges: any;
-  @Input() _minDate: any;
-  @Input() _maxDate: any;
-  @Output() rangeEvent: EventEmitter<{ $event: MouseEvent, label: string }> = new EventEmitter();
+  readonly rangesArray: InputSignal<Array<any> | undefined> = input<Array<any>>();
+  readonly chosenRange: InputSignal<any> = input<any>();
+  readonly locale: InputSignal<any> = input<any>();
+  readonly ranges: InputSignal<any> = input<any>();
+  readonly minDate: InputSignal<Dayjs | null | undefined> = input<Dayjs | null | undefined>();
+  readonly maxDate: InputSignal<Dayjs | null | undefined> = input<Dayjs | null | undefined>();
+  readonly rangeEvent: OutputEmitterRef<{ $event: MouseEvent, label: string }> = output();
 
-  clickRange($event: MouseEvent, label: string) {
+  clickRange($event: MouseEvent, label: string): void {
     this.rangeEvent.emit({$event: $event, label: label})
   }
 
@@ -28,32 +29,24 @@ export class RangesComponent {
    * Find out if the selected range should be disabled if it doesn't
    * fit into minDate and maxDate limitations.
    */
-  disableRange(range: any) {
-    if (range === this.locale.customRangeLabel) {
+  disableRange(range: any): boolean {
+    if (range === this.locale().customRangeLabel) {
       return false;
     }
-    const rangeMarkers = this.ranges[range];
-    const areBothBefore = rangeMarkers.every((date: any) => {
-      if (!this.getMinDate()) {
+    const rangeMarkers: any = this.ranges()[range];
+    const areBothBefore: boolean = rangeMarkers.every((date: Dayjs): boolean => {
+      if (!this.minDate()) {
         return false;
       }
-      return date.isBefore(this.getMinDate());
+      return date.isBefore(this.minDate());
     });
-    const areBothAfter = rangeMarkers.every((date: any) => {
-      if (!this.getMaxDate()) {
+    const areBothAfter: boolean = rangeMarkers.every((date: Dayjs): boolean => {
+      if (!this.maxDate()) {
         return false;
       }
-      return date.isAfter(this.getMaxDate());
+      return date.isAfter(this.maxDate());
     });
     return (areBothBefore || areBothAfter);
-  }
-
-  getMinDate(): Dayjs | null | undefined {
-    return this._minDate;
-  }
-
-  getMaxDate(): Dayjs | null | undefined {
-    return this._maxDate;
   }
 
 }

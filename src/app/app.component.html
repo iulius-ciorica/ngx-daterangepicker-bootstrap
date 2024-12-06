@@ -32,7 +32,7 @@
                  [timePicker24Hour]='true'
                  [showCustomRangeLabel]='true'
                  [showCancel]='true'
-                 [linkedCalendars]='true'
+                 [linkedCalendars]='false'
                  [alwaysShowCalendars]='false'
                  [showRangeLabelOnInput]='false'
                  [keepCalendarOpeningWithRange]='false'
@@ -67,7 +67,7 @@
                  [isInvalidDate]='isInvalidDate'
                  (datesUpdated)="datesUpdatedRange($event)"
                  aria-describedby="rangeCalendarCenterDesc"/>
-          <div id="rangeCalendarCenterDesc" class="form-text">Opens down, center, with apply button</div>
+          <div id="rangeCalendarCenterDesc" class="form-text">Opens down, center, with min/max Date and apply button</div>
         </div>
         <div class="col-4">
           <label for="rangeCalendarAutoLeft" class="form-label">Range Calendar</label>
@@ -107,7 +107,7 @@
           <ngx-daterangepicker-bootstrap (datesUpdated)="datesUpdatedInline($event)"
                                          [timePickerSeconds]='true'
                                          [timePicker24Hour]="true"
-                                         [linkedCalendars]="true"
+                                         [linkedCalendars]="false"
                                          [timePicker]="true"
                                          [locale]="localeTime">
           </ngx-daterangepicker-bootstrap>
