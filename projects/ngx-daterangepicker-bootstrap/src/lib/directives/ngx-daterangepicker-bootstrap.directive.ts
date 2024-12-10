@@ -2,7 +2,6 @@ import {
   AfterViewChecked,
   AfterViewInit,
   ApplicationRef,
-  ComponentMirror,
   ComponentRef,
   Directive,
   ElementRef,
@@ -22,7 +21,6 @@ import {
   OnInit,
   output,
   OutputEmitterRef,
-  reflectComponentType,
   Renderer2,
   ViewContainerRef
 } from '@angular/core';
@@ -162,45 +160,8 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   private chosenDateSubs: any;
 
   constructor() {
-  }
-
-  ngOnInit(): void {
     this.viewContainerRef.clear();
     this.daterangepickerRef = this.viewContainerRef.createComponent(NgxDaterangepickerBootstrapComponent, {injector: this.injector});
-    this.daterangepickerRef.setInput('autoApply', this.autoApply());
-    this.daterangepickerRef.setInput('alwaysShowCalendars', this.alwaysShowCalendars());
-    this.daterangepickerRef.setInput('showCustomRangeLabel', this.showCustomRangeLabel());
-    this.daterangepickerRef.setInput('linkedCalendars', this.linkedCalendars());
-    this.daterangepickerRef.setInput('dateLimit', this.dateLimit());
-    this.daterangepickerRef.setInput('singleDatePicker', this.singleDatePicker());
-    this.daterangepickerRef.setInput('showWeekNumbers', this.showWeekNumbers());
-    this.daterangepickerRef.setInput('showISOWeekNumbers', this.showISOWeekNumbers());
-    this.daterangepickerRef.setInput('showDropdowns', this.showDropdowns());
-    this.daterangepickerRef.setInput('showClearButton', this.showClearButton());
-    this.daterangepickerRef.setInput('customRangeDirection', this.customRangeDirection());
-    this.daterangepickerRef.setInput('ranges', this.ranges());
-    this.daterangepickerRef.setInput('opens', this.opens());
-    this.daterangepickerRef.setInput('drops', this.drops());
-    this.daterangepickerRef.setInput('lastMonthDayClass', this.lastMonthDayClass());
-    this.daterangepickerRef.setInput('emptyWeekRowClass', this.emptyWeekRowClass());
-    this.daterangepickerRef.setInput('emptyWeekColumnClass', this.emptyWeekColumnClass());
-    this.daterangepickerRef.setInput('firstDayOfNextMonthClass', this.firstDayOfNextMonthClass());
-    this.daterangepickerRef.setInput('lastDayOfPreviousMonthClass', this.lastDayOfPreviousMonthClass());
-    this.daterangepickerRef.setInput('keepCalendarOpeningWithRange', this.keepCalendarOpeningWithRange());
-    this.daterangepickerRef.setInput('showRangeLabelOnInput', this.showRangeLabelOnInput());
-    this.daterangepickerRef.setInput('showCancel', this.showCancel());
-    this.daterangepickerRef.setInput('lockStartDate', this.lockStartDate());
-    this.daterangepickerRef.setInput('closeOnAutoApply', this.closeOnAutoApply());
-    this.daterangepickerRef.setInput('timePicker', this.timePicker());
-    this.daterangepickerRef.setInput('timePicker24Hour', this.timePicker24Hour());
-    this.daterangepickerRef.setInput('timePickerIncrement', this.timePickerIncrement());
-    this.daterangepickerRef.setInput('timePickerSeconds', this.timePickerSeconds());
-    this.daterangepickerRef.setInput('firstMonthDayClass', this.firstMonthDayClass);
-    if (this.minDate() !== undefined) this.daterangepickerRef.setInput('minDate', this.minDate());
-    if (this.maxDate() !== undefined) this.daterangepickerRef.setInput('maxDate', this.maxDate());
-    if (this.isInvalidDate() !== undefined) this.daterangepickerRef.setInput('isInvalidDate', this.isInvalidDate());
-    if (this.isCustomDate() !== undefined) this.daterangepickerRef.setInput('isCustomDate', this.isCustomDate());
-    if (this.isTooltipDate() !== undefined) this.daterangepickerRef.setInput('isTooltipDate', this.isTooltipDate());
     this.daterangepickerElement = (this.daterangepickerRef.hostView as EmbeddedViewRef<NgxDaterangepickerBootstrapComponent>).rootNodes[0] as HTMLElement;
     CSS.supports('display', 'contents') // unwrap or hide daterangepickerElement from DOM body, to fix clickOutside
       ? this.daterangepickerElement.classList.add('unwrap', 'on')
@@ -208,6 +169,43 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     document.body.appendChild(this.daterangepickerElement); // add daterangepickerElement to DOM body, to fix position top left issues
     this.daterangepicker = this.daterangepickerRef.instance;
     this.daterangepicker.inline = false; // set inline to false for all directive usage
+  }
+
+  ngOnInit(): void {
+    this.daterangepickerRef?.setInput('autoApply', this.autoApply());
+    this.daterangepickerRef?.setInput('alwaysShowCalendars', this.alwaysShowCalendars());
+    this.daterangepickerRef?.setInput('showCustomRangeLabel', this.showCustomRangeLabel());
+    this.daterangepickerRef?.setInput('linkedCalendars', this.linkedCalendars());
+    this.daterangepickerRef?.setInput('dateLimit', this.dateLimit());
+    this.daterangepickerRef?.setInput('singleDatePicker', this.singleDatePicker());
+    this.daterangepickerRef?.setInput('showWeekNumbers', this.showWeekNumbers());
+    this.daterangepickerRef?.setInput('showISOWeekNumbers', this.showISOWeekNumbers());
+    this.daterangepickerRef?.setInput('showDropdowns', this.showDropdowns());
+    this.daterangepickerRef?.setInput('showClearButton', this.showClearButton());
+    this.daterangepickerRef?.setInput('customRangeDirection', this.customRangeDirection());
+    this.daterangepickerRef?.setInput('ranges', this.ranges());
+    this.daterangepickerRef?.setInput('opens', this.opens());
+    this.daterangepickerRef?.setInput('drops', this.drops());
+    this.daterangepickerRef?.setInput('lastMonthDayClass', this.lastMonthDayClass());
+    this.daterangepickerRef?.setInput('emptyWeekRowClass', this.emptyWeekRowClass());
+    this.daterangepickerRef?.setInput('emptyWeekColumnClass', this.emptyWeekColumnClass());
+    this.daterangepickerRef?.setInput('firstDayOfNextMonthClass', this.firstDayOfNextMonthClass());
+    this.daterangepickerRef?.setInput('lastDayOfPreviousMonthClass', this.lastDayOfPreviousMonthClass());
+    this.daterangepickerRef?.setInput('keepCalendarOpeningWithRange', this.keepCalendarOpeningWithRange());
+    this.daterangepickerRef?.setInput('showRangeLabelOnInput', this.showRangeLabelOnInput());
+    this.daterangepickerRef?.setInput('showCancel', this.showCancel());
+    this.daterangepickerRef?.setInput('lockStartDate', this.lockStartDate());
+    this.daterangepickerRef?.setInput('closeOnAutoApply', this.closeOnAutoApply());
+    this.daterangepickerRef?.setInput('timePicker', this.timePicker());
+    this.daterangepickerRef?.setInput('timePicker24Hour', this.timePicker24Hour());
+    this.daterangepickerRef?.setInput('timePickerIncrement', this.timePickerIncrement());
+    this.daterangepickerRef?.setInput('timePickerSeconds', this.timePickerSeconds());
+    this.daterangepickerRef?.setInput('firstMonthDayClass', this.firstMonthDayClass);
+    if (this.minDate() !== undefined) this.daterangepickerRef?.setInput('minDate', this.minDate());
+    if (this.maxDate() !== undefined) this.daterangepickerRef?.setInput('maxDate', this.maxDate());
+    if (this.isInvalidDate() !== undefined) this.daterangepickerRef?.setInput('isInvalidDate', this.isInvalidDate());
+    if (this.isCustomDate() !== undefined) this.daterangepickerRef?.setInput('isCustomDate', this.isCustomDate());
+    if (this.isTooltipDate() !== undefined) this.daterangepickerRef?.setInput('isTooltipDate', this.isTooltipDate());
     this.rangeClickedSubs = this.daterangepicker.rangeClicked.subscribe((range: any) => this.rangeClicked.emit(range));
     this.datesUpdatedSubs = this.daterangepicker.datesUpdated.subscribe((range: any) => this.datesUpdated.emit(range));
     this.startDateChangedSubs = this.daterangepicker.startDateChanged.subscribe((itemChanged: any) => this.startDateChanged.emit(itemChanged));
@@ -237,16 +235,14 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
 
   ngOnDestroy(): void {
     this._resizeObserver?.unobserve(this.daterangepicker.pickerContainer().nativeElement);
-    const reflectComponent: ComponentMirror<NgxDaterangepickerBootstrapComponent> | null = reflectComponentType(NgxDaterangepickerBootstrapComponent);
-    const selector: Element | null = document.querySelector(reflectComponent!.selector);
-    if (selector !== null) document.body.removeChild(selector);
+    if (this.daterangepickerElement !== null) document.body.removeChild(this.daterangepickerElement!);
     this.applicationRef.detachView(this.daterangepickerRef!.hostView);
-    this.rangeClickedSubs.unsubscribe();
-    this.datesUpdatedSubs.unsubscribe();
-    this.startDateChangedSubs.unsubscribe();
-    this.endDateChangedSubs.unsubscribe();
-    this.clearClickedSubs.unsubscribe();
-    this.chosenDateSubs.unsubscribe();
+    this.rangeClickedSubs?.unsubscribe();
+    this.datesUpdatedSubs?.unsubscribe();
+    this.startDateChangedSubs?.unsubscribe();
+    this.endDateChangedSubs?.unsubscribe();
+    this.clearClickedSubs?.unsubscribe();
+    this.chosenDateSubs?.unsubscribe();
     this.daterangepickerRef?.destroy();
   }
 

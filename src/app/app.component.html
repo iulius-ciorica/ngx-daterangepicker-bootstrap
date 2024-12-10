@@ -14,6 +14,17 @@
     <div class="card-body">
 
       <div class="row mt-3 mb-3">
+        <div class="col-12">
+          <formly-form
+            [form]="form"
+            [fields]="fields"
+            [options]="options"
+            [model]="model">
+          </formly-form>
+        </div>
+      </div>
+
+      <div class="row mt-3 mb-3">
         <div class="col-4">
           <label for="rangeCalendarTimeRight" class="form-label">Range Calendar</label>
           <input type="text"

@@ -1,13 +1,13 @@
-import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
+import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
 import {
   provideDaterangepickerLocale
 } from '../../projects/ngx-daterangepicker-bootstrap/src/lib/utils/ngx-daterangepicker-locale.provider';
-// import {
-//   NgxDaterangepickerBootstrapModule
-// } from "../../projects/ngx-daterangepicker-bootstrap/src/lib/modules/ngx-daterangepicker-bootstrap.module";
+import {FormlyModule} from '@ngx-formly/core';
+import {DaterangepickerFieldType} from './shared/formly/type/daterangepicker-field.type';
+import {AnimatedFieldWrapper} from './shared/formly/wrapper/animated-field.wrapper';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,10 +16,23 @@ export const appConfig: ApplicationConfig = {
     provideDaterangepickerLocale({
       separator: ' - ',
       applyLabel: 'Okay',
-    })
-    // importProvidersFrom(NgxDaterangepickerBootstrapModule.forRoot({
-    //   separator: ' - ',
-    //   applyLabel: 'Okay',
-    // }))
+    }),
+    importProvidersFrom([
+      FormlyModule.forRoot({
+        types: [
+          {
+            name: 'daterangepicker',
+            component: DaterangepickerFieldType,
+            wrappers: ['form-field']
+          },
+        ],
+        wrappers: [
+          {
+            name: 'form-field',
+            component: AnimatedFieldWrapper
+          },
+        ]
+      }),
+    ]),
   ]
 };

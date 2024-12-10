@@ -6,22 +6,28 @@ import {
 import {
   NgxDaterangepickerBootstrapComponent
 } from "../../projects/ngx-daterangepicker-bootstrap/src/lib/components/daterangepicker/ngx-daterangepicker-bootstrap.component";
-import {FormsModule} from '@angular/forms';
+import {FormGroup, FormsModule} from '@angular/forms';
+import {FormlyFieldConfig, FormlyFormOptions, FormlyModule} from '@ngx-formly/core';
+import {DatePipe} from '@angular/common';
+
+export function formatDate(date: any, format: string): string {
+  return new DatePipe('en-US').transform(date, format)!.toString();
+}
 
 @Component({
   selector: 'app-root',
-  imports: [NgxDaterangepickerBootstrapDirective, FormsModule, NgxDaterangepickerBootstrapComponent],
+  imports: [NgxDaterangepickerBootstrapDirective, FormsModule, NgxDaterangepickerBootstrapComponent, FormlyModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
 
-  title = 'ngx-daterangepicker-bootstrap-sdk';
-  dropsDown = 'down';
-  dropsUp = 'up';
-  opensRight = 'right';
-  opensCenter = 'center';
-  opensLeft = 'left';
+  title: string = 'ngx-daterangepicker-bootstrap-sdk';
+  dropsDown: string = 'down';
+  dropsUp: string = 'up';
+  opensRight: string = 'right';
+  opensCenter: string = 'center';
+  opensLeft: string = 'left';
   selectedRangeCalendarTimeRight: any;
   selectedRangeCalendarCenter: any;
   selectedRangeCalendarAutoLeft: any;
@@ -43,7 +49,16 @@ export class AppComponent {
     'This month': [dayjs().startOf('month'), dayjs().endOf('month')],
     'Last month': [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
   };
-  localeTime = {
+  localeTime: {
+    firstDay: number;
+    startDate: Dayjs;
+    endDate: Dayjs;
+    format: string;
+    applyLabel: string;
+    cancelLabel: string;
+    fromLabel: string;
+    toLabel: string
+  } = {
     firstDay: 1,
     startDate: dayjs().startOf('day'),
     endDate: dayjs().endOf('day'),
@@ -53,7 +68,16 @@ export class AppComponent {
     fromLabel: 'From',
     toLabel: 'To',
   };
-  locale = {
+  locale: {
+    firstDay: number;
+    startDate: Dayjs;
+    endDate: Dayjs;
+    format: string;
+    applyLabel: string;
+    cancelLabel: string;
+    fromLabel: string;
+    toLabel: string
+  } = {
     firstDay: 1,
     startDate: dayjs().startOf('day'),
     endDate: dayjs().endOf('day'),
@@ -63,9 +87,32 @@ export class AppComponent {
     fromLabel: 'From',
     toLabel: 'To',
   };
-  tooltips = [
+  tooltips: ({ date: Dayjs; text: string })[] = [
     {date: dayjs(), text: 'Today is just unselectable'},
     {date: dayjs().add(2, 'days'), text: 'Yeeeees!!!'}
+  ];
+
+  public currentDay: { start: string; end: string; label: string } = {
+    start: formatDate(dayjs().startOf('day'), 'yyyy-MM-dd HH:mm:ss'),
+    end: formatDate(dayjs().endOf('day'), 'yyyy-MM-dd HH:mm:ss'),
+    label: 'Today',
+  };
+  public form: FormGroup<{}> = new FormGroup({});
+  public model: any = {};
+  public options: FormlyFormOptions = {formState: {}};
+  public fields: Array<FormlyFieldConfig> = [
+    {
+      key: 'dateRange',
+      type: 'daterangepicker',
+      className: 'col-md-4',
+      defaultValue: this.currentDay,
+      props: {
+        label: this.currentDay.label,
+        description: 'Ngx-Formly is a dynamic (JSON powered) form library for Angular, please see https://formly.dev',
+        readonly: true,
+        selectedDate: ($event: any): void => console.log('ngx-formly', $event),
+      },
+    },
   ];
 
   constructor() {
@@ -73,8 +120,6 @@ export class AppComponent {
       startDate: dayjs().startOf('day'),
       endDate: dayjs().endOf('day')
     };
-    // this.minDate = dayjs().subtract(1, 'days'); // [minDate]="minDate"
-    // this.maxDate = dayjs().add(1, 'days'); // [maxDate]="maxDate"
     this.selectedRangeCalendarCenter = {
       startDate: dayjs().startOf('day'),
       endDate: dayjs().endOf('day')
@@ -104,18 +149,21 @@ export class AppComponent {
     };
   }
 
-  isInvalidDate = (m: Dayjs) => {
-    return this.invalidDates.some(d => d.isSame(m, 'day'));
+  isInvalidDate: (m: Dayjs) => boolean = (m: Dayjs): boolean => {
+    return this.invalidDates.some((d: Dayjs): boolean => d.isSame(m, 'day'));
   };
 
-  isCustomDate = (date: Dayjs) => {
+  isCustomDate: (date: Dayjs) => (string | boolean) = (date: Dayjs): string | boolean => {
     return (date.month() === 0 || date.month() === 6)
       ? 'mycustomdate'
       : false;
   };
 
-  isTooltipDate = (m: Dayjs) => {
-    const tooltip = this.tooltips.find(tt => tt.date.isSame(m, 'day'));
+  isTooltipDate: (m: Dayjs) => (string | boolean) = (m: Dayjs): string | boolean => {
+    const tooltip: { date: Dayjs; text: string } | undefined = this.tooltips.find((tt: {
+      date: Dayjs;
+      text: string
+    }): boolean => tt.date.isSame(m, 'day'));
     return tooltip ? tooltip.text : false;
   };
 
