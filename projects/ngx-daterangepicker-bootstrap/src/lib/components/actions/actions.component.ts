@@ -1,25 +1,26 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, output, OutputEmitterRef} from '@angular/core';
 
 @Component({
   selector: 'actions',
   imports: [],
   templateUrl: './actions.component.html',
-  styleUrl: './actions.component.scss'
+  styleUrl: './actions.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionsComponent {
 
-  @Input() rangesArray: Array<any> = [];
-  @Input() autoApply: any;
-  @Input() showCalInRanges: any;
-  @Input() singleDatePicker: any;
-  @Input() chosenLabel: any;
-  @Input() applyBtn: any;
-  @Input() locale: any;
-  @Input() showCancel: any;
-  @Input() showClearButton: any;
-  @Output() applyEvent: EventEmitter<MouseEvent> = new EventEmitter();
-  @Output() cancelEvent: EventEmitter<MouseEvent> = new EventEmitter();
-  @Output() clearEvent: EventEmitter<MouseEvent> = new EventEmitter();
+  readonly rangesArray = input<Array<any>>([]);
+  readonly autoApply = input<any>();
+  readonly showCalInRanges = input<any>();
+  readonly singleDatePicker = input<any>();
+  readonly chosenLabel = input<any>();
+  readonly applyBtn = input<any>();
+  readonly locale = input<any>();
+  readonly showCancel = input<any>();
+  readonly showClearButton = input<any>();
+  readonly applyEvent: OutputEmitterRef<MouseEvent> = output();
+  readonly cancelEvent: OutputEmitterRef<MouseEvent> = output();
+  readonly clearEvent: OutputEmitterRef<MouseEvent> = output();
 
   clickApply($event: any) {
     this.applyEvent.emit($event)

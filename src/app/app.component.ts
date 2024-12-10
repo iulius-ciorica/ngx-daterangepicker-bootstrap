@@ -11,7 +11,6 @@ import {FormsModule} from '@angular/forms';
 @Component({
   selector: 'app-root',
   imports: [NgxDaterangepickerBootstrapDirective, FormsModule, NgxDaterangepickerBootstrapComponent],
-  // imports: [FormsModule, NgxDaterangepickerBootstrapModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -74,6 +73,8 @@ export class AppComponent {
       startDate: dayjs().startOf('day'),
       endDate: dayjs().endOf('day')
     };
+    // this.minDate = dayjs().subtract(1, 'days'); // [minDate]="minDate"
+    // this.maxDate = dayjs().add(1, 'days'); // [maxDate]="maxDate"
     this.selectedRangeCalendarCenter = {
       startDate: dayjs().startOf('day'),
       endDate: dayjs().endOf('day')
