@@ -3,7 +3,9 @@ import {
   AfterViewInit,
   ApplicationRef,
   ComponentRef,
+  computed,
   Directive,
+  effect,
   ElementRef,
   EmbeddedViewRef,
   forwardRef,
@@ -11,10 +13,6 @@ import {
   Injector,
   input,
   InputSignal,
-  InputSignalWithTransform,
-  KeyValueChanges,
-  KeyValueDiffer,
-  KeyValueDiffers,
   model,
   ModelSignal,
   OnDestroy,
@@ -22,6 +20,7 @@ import {
   output,
   OutputEmitterRef,
   Renderer2,
+  Signal,
   ViewContainerRef
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
@@ -56,7 +55,6 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   private viewContainerRef: ViewContainerRef = inject(ViewContainerRef);
   private injector: Injector = inject(Injector);
   private applicationRef: ApplicationRef = inject(ApplicationRef);
-  private differs: KeyValueDiffers = inject(KeyValueDiffers);
   private elementRef: ElementRef = inject(ElementRef);
   private _renderer: Renderer2 = inject(Renderer2);
   private _localeService: NgxDaterangepickerLocaleService = inject(NgxDaterangepickerLocaleService);
@@ -65,15 +63,11 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   public daterangepicker: NgxDaterangepickerBootstrapComponent | any;
   private daterangepickerRef?: ComponentRef<NgxDaterangepickerBootstrapComponent>;
   private daterangepickerElement?: HTMLElement;
-  private localeDiffer?: KeyValueDiffer<string, any>;
   private firstMonthDayClass?: string;
   private _onChange: Function = Function.prototype;
   private _onTouched: Function = Function.prototype;
   private _disabled?: boolean;
   private _value: any;
-  private _startKey!: string;
-  private _endKey!: string;
-  private _locale: LocaleConfig = {};
   private _resizeObserver?: ResizeObserver;
 
   readonly minDate: InputSignal<Dayjs | null | undefined> = input<Dayjs | null | undefined>();
@@ -108,29 +102,17 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   readonly timePicker: InputSignal<Boolean> = input<Boolean>(false);
   readonly timePicker24Hour: InputSignal<Boolean> = input<Boolean>(false);
   readonly timePickerIncrement: InputSignal<number> = input(1);
+  readonly timePicker24HourInterval: InputSignal<number[]> = input([0, 23]);
   readonly timePickerSeconds: InputSignal<Boolean> = input<Boolean>(false);
   readonly formlyCustomField: InputSignal<Boolean> = input<Boolean>(false); // if you use ngx-formly and create custom field this library
 
-  readonly startKey: InputSignalWithTransform<string, string> = input('startDate', {
-    transform: (value: string): string => {
-      value !== null ? this._startKey = value : this._startKey = 'startDate';
-      return value;
-    }
-  });
+  readonly startKey: InputSignal<string> = model<string>('startDate');
+  readonly endKey: InputSignal<string> = model<string>('endDate');
+  readonly locale: InputSignal<object> = model<object>({});
 
-  readonly endKey: InputSignalWithTransform<string, string> = input('endDate', {
-    transform: (value: string): string => {
-      value !== null ? this._endKey = value : this._endKey = 'endDate';
-      return value;
-    }
-  });
-
-  readonly locale: InputSignalWithTransform<object, object> = input({}, {
-    transform: (value: object): object => {
-      this._locale = {...this._localeService.config, ...value};
-      return this._locale;
-    }
-  });
+  readonly _startKey: Signal<string> = computed((): string => this.startKey() !== null ? this.startKey() : 'startDate');
+  readonly _endKey: Signal<string> = computed((): string => this.endKey() !== null ? this.endKey() : 'endDate');
+  readonly _locale: Signal<LocaleConfig> = computed((): object => this.locale() !== null ? {...this._localeService.config, ...this.locale()} : {});
 
   readonly change: OutputEmitterRef<Object> = output();
   readonly rangeClicked: OutputEmitterRef<Object> = output();
@@ -169,6 +151,9 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     document.body.appendChild(this.daterangepickerElement); // add daterangepickerElement to DOM body, to fix position top left issues
     this.daterangepicker = this.daterangepickerRef.instance;
     this.daterangepicker.inline = false; // set inline to false for all directive usage
+    effect(() => {
+      this.daterangepicker.updateLocale(this._locale());
+    });
   }
 
   ngOnInit(): void {
@@ -198,6 +183,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     this.daterangepickerRef?.setInput('closeOnAutoApply', this.closeOnAutoApply());
     this.daterangepickerRef?.setInput('timePicker', this.timePicker());
     this.daterangepickerRef?.setInput('timePicker24Hour', this.timePicker24Hour());
+    this.daterangepickerRef?.setInput('timePicker24HourInterval', this.timePicker24HourInterval());
     this.daterangepickerRef?.setInput('timePickerIncrement', this.timePickerIncrement());
     this.daterangepickerRef?.setInput('timePickerSeconds', this.timePickerSeconds());
     this.daterangepickerRef?.setInput('firstMonthDayClass', this.firstMonthDayClass);
@@ -214,8 +200,8 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     this.chosenDateSubs = this.daterangepicker.chosenDate.subscribe((change: any) => {
       if (change) {
         const value = {} as any;
-        value[this._startKey] = change.startDate;
-        value[this._endKey] = change.endDate;
+        value[this._startKey()] = change.startDate;
+        value[this._endKey()] = change.endDate;
         this.value = value;
         this.change.emit(value);
         if (typeof change.chosenLabel === 'string') {
@@ -224,13 +210,6 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
       }
     });
     this.pickerResizeObserver();
-    this.localeDiffer = this.differs.find(this.locale()).create();
-    if (this.localeDiffer) {
-      const changes: KeyValueChanges<string, any> | null = this.localeDiffer.diff(this.locale());
-      if (changes) {
-        this.daterangepicker.updateLocale(this.locale());
-      }
-    }
   }
 
   ngOnDestroy(): void {
@@ -247,7 +226,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   }
 
   ngAfterViewInit(): void {
-    if (this.formlyCustomField()) this.writeValue(this.locale()); // If you use ngx-formly custom field, remove [(ngModel)]
+    if (this.formlyCustomField()) this.writeValue(this._locale()); // If you use ngx-formly custom field, remove [(ngModel)]
     // from the input and set [formlyCustomField]='true' instead, to avoid Expression has changed after it was checked.
   }
 
@@ -300,11 +279,11 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
   private setValue(val: any): void {
     if (val) {
       this.value = val;
-      if (val[this._startKey]) {
-        this.daterangepicker.setStartDate(val[this._startKey]);
+      if (val[this._startKey()]) {
+        this.daterangepicker.setStartDate(val[this._startKey()]);
       }
-      if (val[this._endKey]) {
-        this.daterangepicker.setEndDate(val[this._endKey]);
+      if (val[this._endKey()]) {
+        this.daterangepicker.setEndDate(val[this._endKey()]);
       }
       this.daterangepicker.calculateChosenLabel();
       if (this.daterangepicker.chosenLabel) {

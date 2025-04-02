@@ -116,9 +116,9 @@
           <span class='select-highlight'></span>
           <span class='select-bar'></span>
         </div>
-        :
-        <div class='select'>
-          @if (timePickerSeconds()) {
+        @if (timePickerSeconds()) {
+          :
+          <div class='select'>
             <select class='select-item secondselect' [disabled]='!startDate()'
                     [(ngModel)]='timepickerVariables().left.selectedSecond'
                     (ngModelChange)='timeChanged($event, sideEnum.left)'>
@@ -128,10 +128,10 @@
                 </option>
               }
             </select>
-          }
-          <span class='select-highlight'></span>
-          <span class='select-bar'></span>
-        </div>
+            <span class='select-highlight'></span>
+            <span class='select-bar'></span>
+          </div>
+        }
         @if (!timePicker24Hour()) {
           <div class='select'>
             <select class='select-item ampmselect'
@@ -266,9 +266,10 @@
           <span class='select-highlight'></span>
           <span class='select-bar'></span>
         </div>
-        :
-        <div class='select'>
-          @if (timePickerSeconds()) {
+        @if (timePickerSeconds()) {
+          :
+          <div class='select'>
+
             <select class='select-item secondselect' [disabled]='!startDate()'
                     [(ngModel)]='timepickerVariables().right.selectedSecond'
                     (ngModelChange)='timeChanged($event, sideEnum.right)'>
@@ -278,10 +279,11 @@
                 </option>
               }
             </select>
-          }
-          <span class='select-highlight'></span>
-          <span class='select-bar'></span>
-        </div>
+
+            <span class='select-highlight'></span>
+            <span class='select-bar'></span>
+          </div>
+        }
         @if (!timePicker24Hour()) {
           <div class='select'>
             <select class='select-item ampmselect'

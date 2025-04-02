@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, input, InputSignal, output, OutputEmitterRef} from '@angular/core';
-import {SideEnum} from '../../enums/side.enum';
 import {NgClass} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {SideEnum} from "../../model/daterangepicker.model";
 
 @Component({
   selector: 'calendar',
