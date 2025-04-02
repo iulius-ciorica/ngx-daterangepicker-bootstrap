@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, computed, effect,
   ElementRef,
   forwardRef,
   inject,
@@ -29,10 +29,10 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import week from 'dayjs/plugin/weekOfYear';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import {NgClass} from "@angular/common";
-import {SideEnum} from "../../enums/side.enum";
 import {RangesComponent} from '../ranges/ranges.component';
 import {CalendarComponent} from '../calendar/calendar.component';
 import {ActionsComponent} from '../actions/actions.component';
+import {SideEnum} from "../../model/daterangepicker.model";
 
 dayjs.extend(localeData);
 dayjs.extend(LocalizedFormat);
@@ -84,7 +84,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
   private _old: { start: any, end: any } = {start: null, end: null};
   public _minDate?: Dayjs | null;
   public _maxDate?: Dayjs | null;
-  private _locale: LocaleConfig = {};
+  // private _locale: LocaleConfig = {};
   private _ranges: any = {};
 
   readonly startDate: ModelSignal<Dayjs | null | undefined> = model<Dayjs | null | undefined>(dayjs().startOf('day'));
@@ -103,6 +103,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
   readonly timePicker: InputSignal<Boolean> = input<Boolean>(false);
   readonly timePicker24Hour: InputSignal<Boolean> = input<Boolean>(false);
   readonly timePickerIncrement: InputSignal<number> = input(1);
+  readonly timePicker24HourInterval: InputSignal<number[]> = input([0, 23]);
   readonly timePickerSeconds: InputSignal<Boolean> = input<Boolean>(false);
   readonly showClearButton: InputSignal<Boolean> = input<Boolean>(false);
   readonly firstMonthDayClass: InputSignal<string | null | undefined> = input<string | null | undefined>(null);
@@ -134,12 +135,8 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
     }
   });
 
-  readonly locale: InputSignalWithTransform<any, any> = input({}, {
-    transform: (value: any): any => {
-      this._locale = {...this._localeService.config, ...value};
-      return this._locale;
-    }
-  });
+  readonly locale: InputSignal<any> = model<any>({});
+  readonly _locale: Signal<any> = computed((): any => this.locale() !== null ? {...this._localeService.config, ...this.locale()} : {});
 
   readonly ranges: InputSignalWithTransform<any, any> = input({}, { // custom ranges
     transform: (value: any): any => {
@@ -165,20 +162,23 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
   readonly clearClicked: OutputEmitterRef<void> = output();
 
   constructor() {
+    effect(() => {
+      this.updateView();
+    });
   }
 
   ngOnInit(): void {
     this._buildLocale();
-    const daysOfWeek: any[] = [...this.locale().daysOfWeek];
-    this.locale().firstDay = this.locale().firstDay % 7;
-    if (this.locale().firstDay !== 0) {
-      let iterator: any = this.locale().firstDay;
+    const daysOfWeek: any[] = [...this._locale().daysOfWeek];
+    this._locale().firstDay = this._locale().firstDay % 7;
+    if (this._locale().firstDay !== 0) {
+      let iterator: any = this._locale().firstDay;
       while (iterator > 0) {
         daysOfWeek.push(daysOfWeek.shift());
         iterator--;
       }
     }
-    this.locale().daysOfWeek = daysOfWeek;
+    this._locale().daysOfWeek = daysOfWeek;
     if (this.inline) {
       this.applyBtn.disabled = true;
       this._old.start = this.startDate()?.clone();
@@ -206,12 +206,12 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
       for (const range in this.ranges()) {
         if (this.ranges()[range]) {
           if (typeof this.ranges()[range][0] === 'string') {
-            start = dayjs(this.ranges()[range][0], this.locale().format);
+            start = dayjs(this.ranges()[range][0], this._locale().format);
           } else {
             start = dayjs(this.ranges()[range][0]);
           }
           if (typeof this.ranges()[range][1] === 'string') {
-            end = dayjs(this.ranges()[range][1], this.locale().format);
+            end = dayjs(this.ranges()[range][1], this._locale().format);
           } else {
             end = dayjs(this.ranges()[range][1]);
           }
@@ -248,7 +248,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
         }
       }
       if (this.showCustomRangeLabel()) {
-        this.rangesArray.push(this.locale().customRangeLabel);
+        this.rangesArray.push(this._locale().customRangeLabel);
       }
       this.showCalInRanges = (!this.rangesArray.length) || this.alwaysShowCalendars();
       if (!this.timePicker()) {
@@ -275,8 +275,8 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
       }
       minDate = this.startDate();
     }
-    const start: number = this.timePicker24Hour() ? 0 : 1;
-    const end: number = this.timePicker24Hour() ? 23 : 12;
+    const start: number = this.timePicker24Hour() ? this.timePicker24HourInterval()[0] : 1;
+    const end: number = this.timePicker24Hour() ? this.timePicker24HourInterval()[1] : 12;
     this.timepickerVariables[side] = {
       hours: [],
       minutes: [],
@@ -368,7 +368,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
     this.timepickerVariables[side].selected = selected;
   }
 
-  renderCalendar(side: SideEnum): void { // side enums
+  renderCalendar(side: SideEnum): void { // side model
     const mainCalendar: any = (side === SideEnum.left) ? this.leftCalendar : this.rightCalendar;
     const month: any = mainCalendar.month.month();
     const year: any = mainCalendar.month.year();
@@ -388,9 +388,9 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
     calendar.lastDay = lastDay;
     for (let i: number = 0; i < 6; i++) calendar[i] = [];
     // populate the calendar with date objects
-    let startDay: any = daysInLastMonth - dayOfWeek + this.locale().firstDay + 1;
+    let startDay: any = daysInLastMonth - dayOfWeek + this._locale().firstDay + 1;
     if (startDay > daysInLastMonth) startDay -= 7;
-    if (dayOfWeek === this.locale().firstDay) startDay = daysInLastMonth - 6;
+    if (dayOfWeek === this._locale().firstDay) startDay = daysInLastMonth - 6;
     let curDate: Dayjs = dayjs(new Date(lastYear, lastMonth, startDay, 12, minute, second));
     for (let i: number = 0, col: number = 0, row: number = 0; i < 42; i++, col++, curDate = dayjs(curDate).add(24, 'hour')) {
       if (i > 0 && col % 7 === 0) {
@@ -479,7 +479,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
   }
 
   setStartDate(startDate: any): void {
-    if (typeof startDate === 'string') this.startDate.set(dayjs(startDate, this.locale().format));
+    if (typeof startDate === 'string') this.startDate.set(dayjs(startDate, this._locale().format));
     if (typeof startDate === 'object') {
       this.pickingDate = true;
       this.startDate.set(dayjs(startDate));
@@ -514,7 +514,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
 
   setEndDate(endDate: any): void {
     if (typeof endDate === 'string') {
-      this.endDate.set(dayjs(endDate, this.locale().format));
+      this.endDate.set(dayjs(endDate, this._locale().format));
     }
     if (typeof endDate === 'object') {
       this.pickingDate = false;
@@ -604,17 +604,17 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
   }
 
   updateElement(): void {
-    const format: any = this.locale().displayFormat ? this.locale().displayFormat : this.locale().format;
+    const format: any = this._locale().displayFormat ? this._locale().displayFormat : this._locale().format;
     const autoUpdateInput: Boolean = this.autoUpdateInput();
     if (!this.singleDatePicker() && autoUpdateInput) {
       if (this.startDate() && this.endDate()) {
         // if we use ranges and should show range label on input
         if (this.rangesArray.length && this.showRangeLabelOnInput() && this.chosenRange &&
-          this.locale().customRangeLabel !== this.chosenRange) {
+          this._locale().customRangeLabel !== this.chosenRange) {
           this.chosenLabel = this.chosenRange;
         } else {
           this.chosenLabel = this.startDate()?.format(format) +
-            this.locale().separator + this.endDate()?.format(format);
+            this._locale().separator + this.endDate()?.format(format);
         }
       }
     } else if (autoUpdateInput) {
@@ -630,7 +630,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
    * this should calculate the label
    */
   calculateChosenLabel(): void {
-    if (!this.locale() || !this.locale().separator) {
+    if (!this._locale() || !this._locale().separator) {
       this._buildLocale();
     }
     let customRange: boolean = true;
@@ -661,7 +661,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
       }
       if (customRange) {
         if (this.showCustomRangeLabel()) {
-          this.chosenRange = this.locale().customRangeLabel;
+          this.chosenRange = this._locale().customRangeLabel;
         } else {
           this.chosenRange = null;
         }
@@ -895,7 +895,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
       if (!$event.target.parentElement.classList.contains('available')) return;
     }
     if (this.rangesArray.length) {
-      this.chosenRange = this.locale().customRangeLabel;
+      this.chosenRange = this._locale().customRangeLabel;
     }
     let date: any = side === SideEnum.left ? this.leftCalendar.calendar[row][col] : this.rightCalendar.calendar[row][col];
     const customRangeDirection: boolean = this.customRangeDirection();
@@ -946,7 +946,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
   clickRange(object: { $event: MouseEvent, label: string }): void {
     const {$event, label} = object;
     this.chosenRange = label;
-    if (label === this.locale().customRangeLabel) {
+    if (label === this._locale().customRangeLabel) {
       this.isShown.set(true); // show calendars
       this.showCalInRanges = true;
       // disable apply button after selecting custom range
@@ -955,7 +955,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
       const dates: any = this.ranges()[label];
       this.startDate.set(dates[0].clone());
       this.endDate.set(dates[1].clone());
-      if (this.showRangeLabelOnInput() && label !== this.locale().customRangeLabel) {
+      if (this.showRangeLabelOnInput() && label !== this._locale().customRangeLabel) {
         this.chosenLabel = label;
       } else {
         this.calculateChosenLabel();
@@ -1049,7 +1049,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
   updateLocale(locale: any): void {
     for (const key in locale) {
       if (locale.hasOwnProperty(key)) {
-        this.locale()[key] = locale[key];
+        this._locale()[key] = locale[key];
         if (key === 'customRangeLabel') {
           this.renderRanges();
         }
@@ -1061,8 +1061,8 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
    *  clear the daterange picker
    */
   clickClear($event: any): void {
-    this.startDate.set(dayjs().startOf('day'));
-    this.endDate.set(dayjs().endOf('day'));
+    this.startDate.set(this.timePicker24Hour() ? dayjs().startOf('day').add(this.timePicker24HourInterval()[0], 'hours') : dayjs().startOf('day'));
+    this.endDate.set(this.timePicker24Hour() ? dayjs().startOf('day').add(this.timePicker24HourInterval()[1], 'hours') : dayjs().endOf('day'));
     this.chosenDate.emit({chosenLabel: '', startDate: null, endDate: null});
     this.datesUpdated.emit({startDate: null, endDate: null});
     this.clearClicked.emit();
@@ -1074,7 +1074,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
    * fit into minDate and maxDate limitations.
    */
   disableRange(range: any): any {
-    if (range === this.locale().customRangeLabel) {
+    if (range === this._locale().customRangeLabel) {
       return false;
     }
     const rangeMarkers: any = this.ranges()[range];
@@ -1114,12 +1114,11 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
    *  build the locale config
    */
   private _buildLocale(): void {
-    this._locale = {...this._localeService.config, ...this.locale()};
-    if (!this.locale().format) {
+    if (!this._locale().format) {
       if (this.timePicker()) {
-        this.locale().format = dayjs.localeData().longDateFormat('lll');
+        this._locale().format = dayjs.localeData().longDateFormat('lll');
       } else {
-        this.locale().format = dayjs.localeData().longDateFormat('L');
+        this._locale().format = dayjs.localeData().longDateFormat('L');
       }
     }
   }

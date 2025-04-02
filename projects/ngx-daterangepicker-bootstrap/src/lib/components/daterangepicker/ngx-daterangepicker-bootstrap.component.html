@@ -7,15 +7,15 @@
     'hidden': !isShown() && !inline,
     'double': !singleDatePicker() && showCalInRanges,
     'inline': inline,
-    'ltr': locale().direction === 'ltr',
-    'rtl': this.locale().direction === 'rtl'
+    'ltr': _locale().direction === 'ltr',
+    'rtl': this._locale().direction === 'rtl'
     }">
 
   <div class="card-body p-2">
     <ranges
       [rangesArray]="rangesArray"
       [chosenRange]="chosenRange"
-      [locale]="locale()"
+      [locale]="_locale()"
       [ranges]="ranges()"
       [minDate]="minDate()"
       [maxDate]="maxDate()"
@@ -29,7 +29,7 @@
       [showISOWeekNumbers]="showISOWeekNumbers()"
       [linkedCalendars]="linkedCalendars()"
       [showDropdowns]="showDropdowns()"
-      [locale]="locale()"
+      [locale]="_locale()"
       [timePicker]="timePicker()"
       [startDate]="startDate()"
       [timepickerVariables]="timepickerVariables"
@@ -51,7 +51,7 @@
     [singleDatePicker]="singleDatePicker()"
     [chosenLabel]="chosenLabel"
     [applyBtn]="applyBtn"
-    [locale]="locale()"
+    [locale]="_locale()"
     [showCancel]="showCancel()"
     [showClearButton]="showClearButton()"
     (applyEvent)='clickApply($event)'
