@@ -234,10 +234,11 @@
                  [(ngModel)]="selectedSingleCalendarTimeRight"
                  [drops]="dropsUp"
                  [opens]='opensRight'
-                 [locale]="localeTime"
+                 [locale]="localeTime2"
                  [timePicker]='true'
-                 [timePickerSeconds]='true'
+                 [timePickerIncrement]="5"
                  [timePicker24Hour]='true'
+                 [timePicker24HourInterval]="[9, 18]"
                  [isCustomDate]="isCustomDate"
                  [isInvalidDate]="isInvalidDate"
                  (datesUpdated)="datesUpdatedSingle($event)"

@@ -14,7 +14,7 @@ export class ActionsComponent {
   readonly showCalInRanges = input<any>();
   readonly singleDatePicker = input<any>();
   readonly chosenLabel = input<any>();
-  readonly applyBtn = input<any>();
+  readonly applyBtnDisabled = input<any>();
   readonly locale = input<any>();
   readonly showCancel = input<any>();
   readonly showClearButton = input<any>();

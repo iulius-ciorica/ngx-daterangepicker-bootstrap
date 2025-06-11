@@ -1,9 +1,9 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component, computed, effect,
+  Component,
+  computed,
+  effect,
   ElementRef,
-  forwardRef,
   inject,
   input,
   InputSignal,
@@ -19,8 +19,7 @@ import {
   ViewEncapsulation,
   WritableSignal
 } from '@angular/core';
-import {FormsModule, NG_VALUE_ACCESSOR} from "@angular/forms";
-import {LocaleConfig} from "../../utils/ngx-daterangepicker-locale.config";
+import {FormsModule} from "@angular/forms";
 import {NgxDaterangepickerLocaleService} from "../../services/ngx-daterangepicker-locale.service";
 import dayjs, {Dayjs} from "dayjs";
 import localeData from "dayjs/plugin/localeData";
@@ -54,24 +53,18 @@ dayjs.extend(customParseFormat);
   host: {
     '(click)': 'handleInternalClick($event)'
   },
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgxDaterangepickerBootstrapComponent),
-    multi: true
-  }],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxDaterangepickerBootstrapComponent implements OnInit {
 
-  private _ref = inject(ChangeDetectorRef);
   private _localeService = inject(NgxDaterangepickerLocaleService);
 
   public $event: any;
   public chosenLabel?: string;
   public calendarVariables: { left: any, right: any } = {left: {}, right: {}};
   public timepickerVariables: { left: any, right: any } = {left: {}, right: {}};
-  public applyBtn: { disabled: boolean } = {disabled: false};
+  readonly applyBtnDisabled: WritableSignal<Boolean> = signal<Boolean>(false);
   public chosenRange?: string | null;
   public rangesArray: Array<any> = [];
   public inline = true;
@@ -180,7 +173,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
     }
     this._locale().daysOfWeek = daysOfWeek;
     if (this.inline) {
-      this.applyBtn.disabled = true;
+      this.applyBtnDisabled.set(true);
       this._old.start = this.startDate()?.clone();
       this._old.end = this.endDate()?.clone();
     }
@@ -673,7 +666,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
   }
 
   clickApply(e?: any): void {
-    if (this.inline) this.applyBtn.disabled = true;
+    if (this.inline) this.applyBtnDisabled.set(true);
     if (!this.singleDatePicker() && this.startDate() && !this.endDate()) {
       this.endDate.set(this._getDateWithTime(this.startDate(), SideEnum.right));
       this.calculateChosenLabel();
@@ -785,7 +778,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
     if (this.autoApply()) {
       this.clickApply();
     }
-    this.applyBtn.disabled = false;
+    this.applyBtnDisabled.set(false);
   }
 
   /**
@@ -901,7 +894,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
     const customRangeDirection: boolean = this.customRangeDirection();
     const autoApply: Boolean = this.autoApply();
     if ((this.endDate() || (date.isBefore(this.startDate(), 'day') && !customRangeDirection)) && !this.lockStartDate()) { // picking start
-      this.applyBtn.disabled = true;
+      this.applyBtnDisabled.set(true);
       if (this.timePicker()) {
         date = this._getDateWithTime(date, SideEnum.left);
       }
@@ -912,7 +905,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
       // but the time of the end date is before the start date
       this.setEndDate(this.startDate()?.clone());
     } else { // picking end
-      this.applyBtn.disabled = false;
+      this.applyBtnDisabled.set(false);
       if (this.timePicker()) {
         date = this._getDateWithTime(date, SideEnum.right);
       }
@@ -927,7 +920,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
       }
     }
     if (this.singleDatePicker()) {
-      this.applyBtn.disabled = false;
+      this.applyBtnDisabled.set(false);
       this.setEndDate(this.startDate());
       this.updateElement();
     }
@@ -950,7 +943,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
       this.isShown.set(true); // show calendars
       this.showCalInRanges = true;
       // disable apply button after selecting custom range
-      this.applyBtn.disabled = true;
+      this.applyBtnDisabled.set(true);
     } else {
       const dates: any = this.ranges()[label];
       this.startDate.set(dates[0].clone());
@@ -996,7 +989,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
           this.renderTimePicker(SideEnum.right);
         }
         // enable apply button after selecting a range
-        this.applyBtn.disabled = false;
+        this.applyBtnDisabled.set(false);
       }
     }
   }
@@ -1006,7 +999,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
     this._old.start = this.startDate()?.clone();
     this._old.end = this.endDate()?.clone();
     this.isShown.set(true);
-    this.applyBtn.disabled = true;
+    this.applyBtnDisabled.set(true);
     this.updateView();
   }
 
@@ -1025,8 +1018,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
     // if picker is attached to a text input, update it
     this.updateElement();
     this.isShown.set(false);
-    this.applyBtn.disabled = true;
-    this._ref.detectChanges();
+    this.applyBtnDisabled.set(true);
   }
 
   clearIncompleteDateSelection(): void {
@@ -1050,9 +1042,6 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
     for (const key in locale) {
       if (locale.hasOwnProperty(key)) {
         this._locale()[key] = locale[key];
-        if (key === 'customRangeLabel') {
-          this.renderRanges();
-        }
       }
     }
   }
@@ -1061,8 +1050,10 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
    *  clear the daterange picker
    */
   clickClear($event: any): void {
-    this.startDate.set(this.timePicker24Hour() ? dayjs().startOf('day').add(this.timePicker24HourInterval()[0], 'hours') : dayjs().startOf('day'));
-    this.endDate.set(this.timePicker24Hour() ? dayjs().startOf('day').add(this.timePicker24HourInterval()[1], 'hours') : dayjs().endOf('day'));
+    const start: number = this.timePicker24HourInterval()[0];
+    const end: number = this.timePicker24HourInterval()[1];
+    this.startDate.set(this.timePicker24Hour() && start !== 0 ? dayjs().startOf('day').add(start, 'hours') : dayjs().startOf('day'));
+    this.endDate.set(this.timePicker24Hour() && end !== 23 ? dayjs().startOf('day').add(end, 'hours') : dayjs().endOf('day'));
     this.chosenDate.emit({chosenLabel: '', startDate: null, endDate: null});
     this.datesUpdated.emit({startDate: null, endDate: null});
     this.clearClicked.emit();
