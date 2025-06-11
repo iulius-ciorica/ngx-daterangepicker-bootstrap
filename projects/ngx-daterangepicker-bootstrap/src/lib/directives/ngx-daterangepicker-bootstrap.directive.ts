@@ -168,6 +168,7 @@ export class NgxDaterangepickerBootstrapDirective implements OnInit, OnDestroy, 
     this.daterangepickerRef?.setInput('showDropdowns', this.showDropdowns());
     this.daterangepickerRef?.setInput('showClearButton', this.showClearButton());
     this.daterangepickerRef?.setInput('customRangeDirection', this.customRangeDirection());
+    this.daterangepickerRef?.setInput('locale', this.locale());
     this.daterangepickerRef?.setInput('ranges', this.ranges());
     this.daterangepickerRef?.setInput('opens', this.opens());
     this.daterangepickerRef?.setInput('drops', this.drops());

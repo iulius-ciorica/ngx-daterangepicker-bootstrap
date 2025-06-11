@@ -4,7 +4,7 @@
     <button type='button'
             class='btn btn-primary float-end'
             (click)='clickApply($event)'
-            [disabled]='applyBtn().disabled'>
+            [disabled]='applyBtnDisabled()'>
       {{ locale().applyLabel }}
     </button>
     @if (showCancel()) {
