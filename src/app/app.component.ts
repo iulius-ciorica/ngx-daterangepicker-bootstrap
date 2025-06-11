@@ -68,6 +68,27 @@ export class AppComponent {
     fromLabel: 'From',
     toLabel: 'To',
   };
+  localeTime2: {
+    firstDay: number;
+    startDate: Dayjs;
+    endDate: Dayjs;
+    format: string;
+    displayFormat: string;
+    applyLabel: string;
+    cancelLabel: string;
+    fromLabel: string;
+    toLabel: string
+  } = {
+    firstDay: 1,
+    startDate: dayjs().startOf('day'),
+    endDate: dayjs().endOf('day'),
+    format: 'DD.MM.YYYY HH:mm:ss',
+    displayFormat: 'DD.MM.YYYY HH:mm',
+    applyLabel: 'Apply',
+    cancelLabel: 'Cancel',
+    fromLabel: 'From',
+    toLabel: 'To',
+  };
   locale: {
     firstDay: number;
     startDate: Dayjs;
