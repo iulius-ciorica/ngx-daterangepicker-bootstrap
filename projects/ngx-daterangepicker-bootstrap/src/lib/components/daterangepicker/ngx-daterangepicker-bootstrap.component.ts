@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   computed,
   effect,
@@ -59,7 +58,6 @@ dayjs.extend(customParseFormat);
 })
 export class NgxDaterangepickerBootstrapComponent implements OnInit {
 
-  private _ref = inject(ChangeDetectorRef);
   private _localeService = inject(NgxDaterangepickerLocaleService);
 
   public $event: any;
@@ -1021,7 +1019,6 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
     this.updateElement();
     this.isShown.set(false);
     this.applyBtnDisabled.set(true);
-    this._ref.detectChanges();
   }
 
   clearIncompleteDateSelection(): void {
