@@ -1,14 +1,14 @@
-import {Component} from '@angular/core';
+import {Component, signal} from '@angular/core';
 import dayjs, {Dayjs} from 'dayjs';
+import {DatePipe} from '@angular/common';
+import {FormGroup, FormsModule} from '@angular/forms';
+import {FormlyFieldConfig, FormlyForm, FormlyFormOptions} from '@ngx-formly/core';
 import {
   NgxDaterangepickerBootstrapDirective
 } from "../../projects/ngx-daterangepicker-bootstrap/src/lib/directives/ngx-daterangepicker-bootstrap.directive";
 import {
   NgxDaterangepickerBootstrapComponent
 } from "../../projects/ngx-daterangepicker-bootstrap/src/lib/components/daterangepicker/ngx-daterangepicker-bootstrap.component";
-import {FormGroup, FormsModule} from '@angular/forms';
-import {FormlyFieldConfig, FormlyFormOptions, FormlyModule} from '@ngx-formly/core';
-import {DatePipe} from '@angular/common';
 
 export function formatDate(date: any, format: string): string {
   return new DatePipe('en-US').transform(date, format)!.toString();
@@ -16,13 +16,12 @@ export function formatDate(date: any, format: string): string {
 
 @Component({
   selector: 'app-root',
-  imports: [NgxDaterangepickerBootstrapDirective, FormsModule, NgxDaterangepickerBootstrapComponent, FormlyModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  imports: [FormlyForm, FormsModule, NgxDaterangepickerBootstrapDirective, NgxDaterangepickerBootstrapComponent],
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
-export class AppComponent {
-
-  title: string = 'ngx-daterangepicker-bootstrap-sdk';
+export class App {
+  protected readonly title = signal('ngx-daterangepicker-bootstrap-sdk-a20');
   dropsDown: string = 'down';
   dropsUp: string = 'up';
   opensRight: string = 'right';
