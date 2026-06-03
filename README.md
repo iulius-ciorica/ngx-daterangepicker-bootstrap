@@ -1,8 +1,8 @@
 # ngx-daterangepicker-bootstrap
 
-> Date range picker - Angular 21 and Bootstrap 5
+> Date range picker - Angular 22 and Bootstrap 5
 
-This `Angular Bootstrap` plugin is compatible with Angular 21. \
+This `Angular Bootstrap` plugin is compatible with Angular 22. \
 It leverages `dayjs` to handle date manipulation and parsing and `Bootstrap 5` is used for visual details. \
 This plugin is a fork of [NgxDaterangepickerMaterial](https://github.com/fetrarij/ngx-daterangepicker-material) by Fetrarijaona R. which is an improved version that uses `Bootstrap 5`. \
 The base for this plugin was originally the [Bootstrap Date Range Picker](http://www.daterangepicker.com), but its dependencies on `jQuery` and `moment.js` were removed.
@@ -15,7 +15,8 @@ The base for this plugin was originally the [Bootstrap Date Range Picker](http:/
 
 | Angular | Bootstrap | ngx-daterangepicker-bootstrap |
 |---------|:----------|:-----------------------------:|
-| 21.0.0  | 5.3.0     |            21.0.x             |
+| 22.0.0  | 5.3.0     |            22.5.x             |
+| 21.0.0  | 5.3.0     |            21.5.x             |
 | 20.1.0  | 5.3.0     |            20.5.x             |
 | 19.0.0  | 5.3.0     |            19.5.x             |
 | 18.0.0  | 5.3.0     |            18.5.x             |
@@ -34,7 +35,7 @@ Install the plugin from npm:
 `npm install ngx-daterangepicker-bootstrap --save`
 
 ---
-## Configuration for standalone, version 21, 20, 19, 18 and 17
+## Configuration for standalone, version 22, 21, 20, 19, 18 and 17
 
 [StackBlitz | Date Range Picker - Angular 21 and Bootstrap 5](https://stackblitz.com/edit/ngx-daterangepicker-bootstrap-21-5-0)
 

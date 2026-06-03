@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -54,7 +53,6 @@ dayjs.extend(customParseFormat);
     '(click)': 'handleInternalClick($event)'
   },
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxDaterangepickerBootstrapComponent implements OnInit {
 

@@ -1,11 +1,10 @@
-import {ChangeDetectionStrategy, Component, input, output, OutputEmitterRef} from '@angular/core';
+import {Component, input, output, OutputEmitterRef} from '@angular/core';
 
 @Component({
   selector: 'actions',
   imports: [],
   templateUrl: './actions.component.html',
   styleUrl: './actions.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionsComponent {
 
