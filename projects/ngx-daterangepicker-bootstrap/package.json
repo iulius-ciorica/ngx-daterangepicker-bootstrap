@@ -1,9 +1,10 @@
 {
   "name": "ngx-daterangepicker-bootstrap",
-  "version": "21.5.0",
-  "description": "Date Range Picker - Angular 21 and Bootstrap 5",
+  "version": "22.5.0",
+  "description": "Date Range Picker - Angular 22 and Bootstrap 5",
   "keywords": [
     "angular",
+    "22",
     "21",
     "20",
     "19",
@@ -23,7 +24,7 @@
     "picker",
     "dayjs"
   ],
-  "homepage": "https://stackblitz.com/edit/ngx-daterangepicker-bootstrap-21-5-0",
+  "homepage": "https://stackblitz.com/edit/ngx-daterangepicker-bootstrap-22-5-0",
   "license": "MIT",
   "author": {
     "name": "Iulius Ciorica",
@@ -35,10 +36,10 @@
     "url": "https://github.com/iulius-ciorica/ngx-daterangepicker-bootstrap.git"
   },
   "peerDependencies": {
-    "@angular/common": "^21.0.0",
-    "@angular/core": "^21.0.0",
+    "@angular/common": "^22.0.0",
+    "@angular/core": "^22.0.0",
     "bootstrap": "^5.3.8",
-    "dayjs": "^1.11.19"
+    "dayjs": "^1.11.21"
   },
   "dependencies": {
     "tslib": "^2.3.0"

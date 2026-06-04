@@ -4,10 +4,10 @@ import {provideRouter} from '@angular/router';
 import {routes} from './app.routes';
 import {provideFormlyCore} from '@ngx-formly/core';
 import {DaterangepickerFieldType} from './shared/formly/type/daterangepicker-field.type';
+import {withFormlyBootstrap} from '@ngx-formly/bootstrap';
 import {
   provideDaterangepickerLocale
 } from '../../projects/ngx-daterangepicker-bootstrap/src/lib/utils/ngx-daterangepicker-locale.provider';
-import {withFormlyBootstrap} from '@ngx-formly/bootstrap';
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, input, InputSignal, output, OutputEmitterRef} from '@angular/core';
+import {Component, input, InputSignal, output, OutputEmitterRef} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {SideEnum} from "../../model/daterangepicker.model";
@@ -11,7 +11,6 @@ import {SideEnum} from "../../model/daterangepicker.model";
   ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarComponent {
 
