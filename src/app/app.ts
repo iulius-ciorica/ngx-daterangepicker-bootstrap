@@ -21,7 +21,7 @@ export function formatDate(date: any, format: string): string {
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('ngx-daterangepicker-bootstrap-sdk-a21');
+  protected readonly title = signal('ngx-daterangepicker-bootstrap-sdk-a22');
   dropsDown: string = 'down';
   dropsUp: string = 'up';
   opensRight: string = 'right';
@@ -198,5 +198,4 @@ export class App {
   datesUpdatedInline($event: Object) {
     console.log('inline', $event);
   }
-
 }

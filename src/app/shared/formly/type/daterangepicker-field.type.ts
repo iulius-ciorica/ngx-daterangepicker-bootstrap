@@ -30,7 +30,6 @@ export function formatDate(date: any, format: string): string {
              [timePicker24Hour]='true'
              [showCustomRangeLabel]='true'
              [showCancel]='true'
-             [linkedCalendars]='true'
              [alwaysShowCalendars]='false'
              [showRangeLabelOnInput]='false'
              [keepCalendarOpeningWithRange]='false'

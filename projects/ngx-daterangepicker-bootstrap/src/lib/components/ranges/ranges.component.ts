@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, input, InputSignal, output, OutputEmitterRef} from '@angular/core';
+import {Component, input, InputSignal, output, OutputEmitterRef} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {Dayjs} from 'dayjs';
 
@@ -9,7 +9,6 @@ import {Dayjs} from 'dayjs';
   ],
   templateUrl: './ranges.component.html',
   styleUrl: './ranges.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RangesComponent {
 

@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-daterangepicker-bootstrap-sdk-a21": {
+    "ngx-daterangepicker-bootstrap-sdk-a22": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ngx-daterangepicker-bootstrap-sdk-a21:build:production"
+              "buildTarget": "ngx-daterangepicker-bootstrap-sdk-a22:build:production"
             },
             "development": {
-              "buildTarget": "ngx-daterangepicker-bootstrap-sdk-a21:build:development"
+              "buildTarget": "ngx-daterangepicker-bootstrap-sdk-a22:build:development"
             }
           },
           "defaultConfiguration": "development"

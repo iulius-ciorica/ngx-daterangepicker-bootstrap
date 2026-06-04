@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -54,11 +53,10 @@ dayjs.extend(customParseFormat);
     '(click)': 'handleInternalClick($event)'
   },
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxDaterangepickerBootstrapComponent implements OnInit {
 
-  private _localeService = inject(NgxDaterangepickerLocaleService);
+  private _localeService: NgxDaterangepickerLocaleService = inject(NgxDaterangepickerLocaleService);
 
   public $event: any;
   public chosenLabel?: string;
@@ -67,7 +65,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
   readonly applyBtnDisabled: WritableSignal<Boolean> = signal<Boolean>(false);
   public chosenRange?: string | null;
   public rangesArray: Array<any> = [];
-  public inline = true;
+  public inline: boolean = true;
   public showCalInRanges: Boolean = false;
   private tooltiptext: any = [];  // for storing tooltiptext
   private leftCalendar: any = {};
@@ -155,7 +153,7 @@ export class NgxDaterangepickerBootstrapComponent implements OnInit {
   readonly clearClicked: OutputEmitterRef<void> = output();
 
   constructor() {
-    effect(() => {
+    effect((): void => {
       this.updateView();
     });
   }
